@@ -80,19 +80,9 @@
 
   <div class="sidebar">
   <div class="card">
-    <h2>ウィジェット設定</h2>
-
-    <label for="text">テキスト</label>
-    <input type="text" id="text" value="こんにちは">
-
-    <label for="fontSize">文字サイズ(px)</label>
-<input type="number" id="fontSize" value="24">
-
-<label for="fontFamily">フォント</label>
-<div class="card">
-  <h3>フォント</h3>
-  <button id="toggleFontList" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 12px; background: white; cursor: pointer; font-size: 15px;">
-    フォントを選ぶ
+  <label>フォント</label>
+  <button id="toggleFontList" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 12px; background: white; cursor: pointer; font-size: 15px; text-align: left;">
+    フォントを選ぶ ▼
   </button>
 
   <ul id="fontList" style="list-style: none; padding: 0; margin: 10px 0 0 0; display: none;">
@@ -123,6 +113,7 @@
     </li>
   </ul>
 </div>
+
 
 
 
@@ -159,11 +150,10 @@
   </div>
 
   <script>
-    let selectedFontFamily = "'Noto Sans JP', sans-serif"; // 最初はデフォルトでセット
+    let selectedFontFamily = "'Noto Sans JP', sans-serif"; // デフォルト
+const widget = document.getElementById('widget');
 
-    const widget = document.getElementById('widget');
-
-    function updateWidget() {
+function updateWidget() {
   const text = document.getElementById('text').value;
   const bgColor = document.getElementById('bgColor').value;
   const textColor = document.getElementById('textColor').value;
@@ -182,11 +172,44 @@
   widget.style.fontFamily = fontFamily;
   widget.style.borderRadius = shape === 'rounded' ? '16px' : '0px';
 
-  // --- URL生成処理 ---
   const baseUrl = window.location.origin + window.location.pathname.replace('index.html', 'widget.html');
   const url = `${baseUrl}?text=${encodeURIComponent(text)}&bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&shape=${shape}&width=${width}&height=${height}&fontSize=${fontSize}&fontFamily=${encodeURIComponent(fontFamily)}`;
   document.getElementById('generatedUrl').value = url;
 }
+
+// リスト開閉＋矢印切り替え
+const toggleBtn = document.getElementById('toggleFontList');
+toggleBtn.addEventListener('click', () => {
+  const fontList = document.getElementById('fontList');
+  if (fontList.style.display === 'none') {
+    fontList.style.display = 'block';
+    toggleBtn.innerHTML = "フォントを選ぶ ▲";
+  } else {
+    fontList.style.display = 'none';
+    toggleBtn.innerHTML = "フォントを選ぶ ▼";
+  }
+});
+
+// フォント選択
+document.querySelectorAll('#fontList li').forEach(li => {
+  li.addEventListener('click', () => {
+    const fontFamily = li.getAttribute('data-font');
+    selectedFontFamily = fontFamily;
+    widget.style.fontFamily = fontFamily;
+
+    // ハイライト
+    document.querySelectorAll('#fontList li').forEach(item => {
+      item.style.background = 'transparent';
+    });
+    li.style.background = '#eef2f7';
+    
+    updateWidget();
+
+    // リストを閉じる＋ボタンを戻す
+    document.getElementById('fontList').style.display = 'none';
+    toggleBtn.innerHTML = "フォントを選ぶ ▼";
+  });
+});
 
 window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input, select').forEach(el => {
@@ -194,21 +217,9 @@ window.addEventListener('DOMContentLoaded', () => {
     el.addEventListener('change', updateWidget);
   });
 
-  document.querySelectorAll('#fontList li').forEach(li => {
-    li.addEventListener('click', () => {
-      const fontFamily = li.getAttribute('data-font');
-      selectedFontFamily = fontFamily; // フォントを保存
-      widget.style.fontFamily = fontFamily; // ウィジェットに適用
-      updateWidget(); // URLも更新
-    });
-  });
+  updateWidget();
 });
 
-// フォントリスト開閉
-document.getElementById('toggleFontList').addEventListener('click', () => {
-  const fontList = document.getElementById('fontList');
-  fontList.style.display = fontList.style.display === 'none' ? 'block' : 'none';
-});
 
 
 
