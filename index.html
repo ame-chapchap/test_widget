@@ -90,35 +90,40 @@
 
 <label for="fontFamily">フォント</label>
 <div class="card">
-  <h3>フォント選択</h3>
-  <ul id="fontList" style="list-style: none; padding: 0; margin: 0;">
-    <li data-font="'Noto Sans JP', sans-serif" style="padding: 10px; cursor: pointer;">
+  <h3>フォント</h3>
+  <button id="toggleFontList" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 12px; background: white; cursor: pointer; font-size: 15px;">
+    フォントを選ぶ
+  </button>
+
+  <ul id="fontList" style="list-style: none; padding: 0; margin: 10px 0 0 0; display: none;">
+    <li data-font="'Noto Sans JP', sans-serif" style="padding: 12px; cursor: pointer;">
       <div style="font-family: 'Noto Sans JP', sans-serif;">
-        <strong>Noto Sans JP</strong> <span style="color: #999;">文字もじモジ</span>
+        <strong>Noto Sans JP</strong><br><span style="color: #999; font-size: 12px;">文字もじモジ</span>
       </div>
     </li>
-    <li data-font="'M PLUS Rounded 1c', sans-serif" style="padding: 10px; cursor: pointer;">
+    <li data-font="'M PLUS Rounded 1c', sans-serif" style="padding: 12px; cursor: pointer;">
       <div style="font-family: 'M PLUS Rounded 1c', sans-serif;">
-        <strong>M PLUS Rounded 1c</strong> <span style="color: #999;">文字もじモジ</span>
+        <strong>M PLUS Rounded 1c</strong><br><span style="color: #999; font-size: 12px;">文字もじモジ</span>
       </div>
     </li>
-    <li data-font="'Kosugi Maru', sans-serif" style="padding: 10px; cursor: pointer;">
+    <li data-font="'Kosugi Maru', sans-serif" style="padding: 12px; cursor: pointer;">
       <div style="font-family: 'Kosugi Maru', sans-serif;">
-        <strong>Kosugi Maru</strong> <span style="color: #999;">文字もじモジ</span>
+        <strong>Kosugi Maru</strong><br><span style="color: #999; font-size: 12px;">文字もじモジ</span>
       </div>
     </li>
-    <li data-font="'Shippori Mincho', serif" style="padding: 10px; cursor: pointer;">
+    <li data-font="'Shippori Mincho', serif" style="padding: 12px; cursor: pointer;">
       <div style="font-family: 'Shippori Mincho', serif;">
-        <strong>Shippori Mincho</strong> <span style="color: #999;">文字もじモジ</span>
+        <strong>Shippori Mincho</strong><br><span style="color: #999; font-size: 12px;">文字もじモジ</span>
       </div>
     </li>
-    <li data-font="'Zen Maru Gothic', sans-serif" style="padding: 10px; cursor: pointer;">
+    <li data-font="'Zen Maru Gothic', sans-serif" style="padding: 12px; cursor: pointer;">
       <div style="font-family: 'Zen Maru Gothic', sans-serif;">
-        <strong>Zen Maru Gothic</strong> <span style="color: #999;">文字もじモジ</span>
+        <strong>Zen Maru Gothic</strong><br><span style="color: #999; font-size: 12px;">文字もじモジ</span>
       </div>
     </li>
   </ul>
 </div>
+
 
 
 
@@ -199,6 +204,11 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// フォントリスト開閉
+document.getElementById('toggleFontList').addEventListener('click', () => {
+  const fontList = document.getElementById('fontList');
+  fontList.style.display = fontList.style.display === 'none' ? 'block' : 'none';
+});
 
 
 
