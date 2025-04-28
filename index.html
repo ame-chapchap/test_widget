@@ -80,9 +80,17 @@
 
   <div class="sidebar">
   <div class="card">
+  <h2>ウィジェット設定</h2>
+
+  <!-- 👇 ここ追加！ -->
+  <label for="text">テキスト</label>
+  <input type="text" id="text" value="こんにちは">
+
+  <label for="fontSize">文字サイズ(px)</label>
+  <input type="number" id="fontSize" value="24">
   <label>フォント</label>
   <button id="toggleFontList" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 12px; background: white; cursor: pointer; font-size: 15px; text-align: left;">
-    フォントを選ぶ ▼
+    ▼ フォントを選ぶ
   </button>
 
   <ul id="fontList" style="list-style: none; padding: 0; margin: 10px 0 0 0; display: none;">
@@ -183,10 +191,10 @@ toggleBtn.addEventListener('click', () => {
   const fontList = document.getElementById('fontList');
   if (fontList.style.display === 'none') {
     fontList.style.display = 'block';
-    toggleBtn.innerHTML = "フォントを選ぶ ▲";
+    toggleBtn.innerHTML = "▲ フォントを選ぶ";
   } else {
     fontList.style.display = 'none';
-    toggleBtn.innerHTML = "フォントを選ぶ ▼";
+    toggleBtn.innerHTML = "▼ フォントを選ぶ";
   }
 });
 
@@ -207,7 +215,7 @@ document.querySelectorAll('#fontList li').forEach(li => {
 
     // リストを閉じる＋ボタンを戻す
     document.getElementById('fontList').style.display = 'none';
-    toggleBtn.innerHTML = "フォントを選ぶ ▼";
+    toggleBtn.innerHTML = "▼ フォントを選ぶ";
   });
 });
 
