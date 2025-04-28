@@ -146,9 +146,10 @@
     window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('input', updateWidget);
-    el.addEventListener('change', updateWidget);
+    el.addEventListener('change', updateWidget); // ←これ超大事！！
   });
 });
+
 
 
     updateWidget();
