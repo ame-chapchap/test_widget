@@ -100,6 +100,30 @@
   from {opacity: 0; transform: translateY(-10px);}
   to {opacity: 1; transform: translateY(0);}
 }
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.color-swatch:hover {
+  border: 2px solid #555;
+}
+#colorPopup {
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
 
 
     
@@ -140,32 +164,46 @@
   <!-- 背景色 -->
   <label for="bgColor">背景色</label>
 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; position: relative;">
-  
-  <!-- カラーコード入力欄 -->
+  <!-- カラーコード入力 -->
   <input type="text" id="bgColor" value="#FFFFFF" style="flex: 1; padding: 10px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
   
   <!-- 色プレビューボックス -->
-  <div id="bgColorPreview" style="width: 30px; height: 30px; border-radius: 8px; background: #FFFFFF; border: 1px solid #ccc; cursor: pointer;"></div>
+  <div id="bgColorPreview" style="width: 28px; height: 28px; border-radius: 8px; background: #FFFFFF; border: 1px solid #ccc; cursor: pointer;"></div>
   
-  <!-- カラーパレットポップアップ -->
-  <div id="colorPopup" style="display: none; position: absolute; top: 50px; right: 0; background: white; border: 1px solid #ccc; border-radius: 12px; padding: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); z-index: 100;">
+  <!-- ポップアップ -->
+  <div id="colorPopup" style="display: none; position: absolute; top: 50px; right: 0; background: white; border: 1px solid #ccc; border-radius: 12px; padding: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); z-index: 100; width: 240px;">
     <input type="color" id="bgColorPicker" value="#FFFFFF" style="width: 100%; height: 40px; border: none; margin-bottom: 12px;">
 
-    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-      <div class="color-swatch" style="background: #FFFFFF;" data-color="#FFFFFF" title="Default"></div>
-      <div class="color-swatch" style="background: #F1F1EF;" data-color="#F1F1EF" title="Gray background"></div>
-      <div class="color-swatch" style="background: #F4EEEE;" data-color="#F4EEEE" title="Brown background"></div>
-      <div class="color-swatch" style="background: #FBECDD;" data-color="#FBECDD" title="Orange background"></div>
-      <div class="color-swatch" style="background: #FBF3DB;" data-color="#FBF3DB" title="Yellow background"></div>
-      <div class="color-swatch" style="background: #EDF3EC;" data-color="#EDF3EC" title="Green background"></div>
-      <div class="color-swatch" style="background: #E7F3F8;" data-color="#E7F3F8" title="Blue background"></div>
-      <div class="color-swatch" style="background: #F6F3F9;" data-color="#F6F3F9" title="Purple background"></div>
-      <div class="color-swatch" style="background: #fdebec;" data-color="#fdebec" title="Pink background"></div>
-      <div class="color-swatch" style="background: #FBE4E4;" data-color="#FBE4E4" title="Red background"></div>
+    <div style="font-size: 12px; font-weight: bold; margin-bottom: 8px;">Notion Light</div>
+    <div class="color-grid">
+      <div class="color-swatch" style="background: #FFFFFF;" data-color="#FFFFFF"></div>
+      <div class="color-swatch" style="background: #F1F1EF;" data-color="#F1F1EF"></div>
+      <div class="color-swatch" style="background: #F4EEEE;" data-color="#F4EEEE"></div>
+      <div class="color-swatch" style="background: #FBECDD;" data-color="#FBECDD"></div>
+      <div class="color-swatch" style="background: #FBF3DB;" data-color="#FBF3DB"></div>
+      <div class="color-swatch" style="background: #EDF3EC;" data-color="#EDF3EC"></div>
+      <div class="color-swatch" style="background: #E7F3F8;" data-color="#E7F3F8"></div>
+      <div class="color-swatch" style="background: #F6F3F9;" data-color="#F6F3F9"></div>
+      <div class="color-swatch" style="background: #fdebec;" data-color="#fdebec"></div>
+      <div class="color-swatch" style="background: #FBE4E4;" data-color="#FBE4E4"></div>
+    </div>
+
+    <div style="font-size: 12px; font-weight: bold; margin: 12px 0 8px;">Notion Dark</div>
+    <div class="color-grid">
+      <div class="color-swatch" style="background: #2F3437; border: 1px solid #fff;" data-color="#2F3437"></div>
+      <div class="color-swatch" style="background: #3F4042;" data-color="#3F4042"></div>
+      <div class="color-swatch" style="background: #64473A;" data-color="#64473A"></div>
+      <div class="color-swatch" style="background: #7B5A36;" data-color="#7B5A36"></div>
+      <div class="color-swatch" style="background: #735C30;" data-color="#735C30"></div>
+      <div class="color-swatch" style="background: #314C40;" data-color="#314C40"></div>
+      <div class="color-swatch" style="background: #2D545E;" data-color="#2D545E"></div>
+      <div class="color-swatch" style="background: #44355B;" data-color="#44355B"></div>
+      <div class="color-swatch" style="background: #5B3446;" data-color="#5B3446"></div>
+      <div class="color-swatch" style="background: #5C2B29;" data-color="#5C2B29"></div>
     </div>
   </div>
-
 </div>
+
 
 
 
@@ -353,6 +391,50 @@ document.querySelectorAll('.color-swatch').forEach(swatch => {
     document.getElementById('bgColor').value = color;
     document.getElementById('bgColorPreview').style.background = color;
     document.getElementById('bgColorPicker').value = color;
+    updateWidget();
+  });
+});
+  const bgColorInput = document.getElementById('bgColor');
+const bgColorPreview = document.getElementById('bgColorPreview');
+const bgColorPicker = document.getElementById('bgColorPicker');
+
+// 入力欄直接打ったら更新
+bgColorInput.addEventListener('input', () => {
+  const color = bgColorInput.value;
+  bgColorPreview.style.background = color;
+  bgColorPicker.value = color;
+  updateWidget();
+});
+
+// プレビュー押したら開閉
+bgColorPreview.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const popup = document.getElementById('colorPopup');
+  popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+});
+
+// ページクリックで閉じる
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#colorPopup') && !e.target.closest('#bgColorPreview')) {
+    document.getElementById('colorPopup').style.display = 'none';
+  }
+});
+
+// カラーピッカー変更
+bgColorPicker.addEventListener('input', () => {
+  const color = bgColorPicker.value;
+  bgColorInput.value = color;
+  bgColorPreview.style.background = color;
+  updateWidget();
+});
+
+// Notionカラークリック
+document.querySelectorAll('.color-swatch').forEach(swatch => {
+  swatch.addEventListener('click', (e) => {
+    const color = swatch.getAttribute('data-color');
+    bgColorInput.value = color;
+    bgColorPreview.style.background = color;
+    bgColorPicker.value = color;
     updateWidget();
   });
 });
