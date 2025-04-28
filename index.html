@@ -2,57 +2,112 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Custom Widget</title>
+  <title>Widget Builder</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: transparent;
+      display: flex;
+      height: 100vh;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    .sidebar {
+      width: 300px;
+      background: #f4f4f4;
+      padding: 20px;
+      box-sizing: border-box;
+      border-right: 1px solid #ccc;
+    }
+    .main {
+      flex-grow: 1;
+      background: #ffffff;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
     }
     .widget {
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Noto Sans JP', sans-serif;
       font-weight: bold;
-      border-radius: 0px; /* 丸み：あとで上書き */
-      box-shadow: none; /* 影：オプション */
+      background-color: #191970;
+      color: #ffffff;
+      width: 300px;
+      height: 150px;
+      border-radius: 0px;
+      box-shadow: none;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="widget" id="widget">
-    Loading...
+
+  <div class="sidebar">
+    <h2>ウィジェット設定</h2>
+
+    <label for="text">テキスト</label>
+    <input type="text" id="text" value="こんにちは">
+
+    <label for="bgColor">背景色</label>
+    <input type="color" id="bgColor" value="#191970">
+
+    <label for="textColor">文字色</label>
+    <input type="color" id="textColor" value="#ffffff">
+
+    <label for="shape">形</label>
+    <select id="shape">
+      <option value="square">四角</option>
+      <option value="rounded">丸みあり</option>
+    </select>
+
+    <label for="width">幅(px)</label>
+    <input type="number" id="width" value="300">
+
+    <label for="height">高さ(px)</label>
+    <input type="number" id="height" value="150">
+  </div>
+
+  <div class="main">
+    <div class="widget" id="widget">
+      こんにちは
+    </div>
   </div>
 
   <script>
-    // URLパラメータを取得
-    const params = new URLSearchParams(window.location.search);
-
-    const text = params.get('text') || 'Hello!';
-    const bgColor = params.get('bgColor') || '#ffffff';
-    const textColor = params.get('textColor') || '#333333';
-    const shape = params.get('shape') || 'square';
-    const width = params.get('width') || '300';
-    const height = params.get('height') || '150';
-
-    // ウィジェットを設定
     const widget = document.getElementById('widget');
-    widget.textContent = text;
-    widget.style.backgroundColor = bgColor;
-    widget.style.color = textColor;
-    widget.style.width = width + 'px';
-    widget.style.height = height + 'px';
-
-    if (shape === 'rounded') {
-      widget.style.borderRadius = '16px';
-      widget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+    
+    function updateWidget() {
+      const text = document.getElementById('text').value;
+      const bgColor = document.getElementById('bgColor').value;
+      const textColor = document.getElementById('textColor').value;
+      const shape = document.getElementById('shape').value;
+      const width = document.getElementById('width').value;
+      const height = document.getElementById('height').value;
+      
+      widget.textContent = text;
+      widget.style.backgroundColor = bgColor;
+      widget.style.color = textColor;
+      widget.style.width = width + 'px';
+      widget.style.height = height + 'px';
+      widget.style.borderRadius = shape === 'rounded' ? '16px' : '0px';
     }
+
+    document.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('input', updateWidget);
+    });
+
+    updateWidget();
   </script>
+
 </body>
 </html>
