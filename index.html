@@ -82,6 +82,25 @@
 .color-swatch:hover {
   border: 2px solid #555;
 }
+.color-swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.color-swatch:hover {
+  border: 2px solid #555;
+}
+#colorPopup {
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
 
     
 </style>
@@ -120,33 +139,35 @@
 
   <!-- 背景色 -->
   <label for="bgColor">背景色</label>
-<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-  <!-- カラーコード入力 -->
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; position: relative;">
+  
+  <!-- カラーコード入力欄 -->
   <input type="text" id="bgColor" value="#FFFFFF" style="flex: 1; padding: 10px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
   
   <!-- 色プレビューボックス -->
-  <div id="bgColorPreview" style="width: 36px; height: 36px; border-radius: 8px; background: #FFFFFF; border: 1px solid #ccc; cursor: pointer;"></div>
+  <div id="bgColorPreview" style="width: 30px; height: 30px; border-radius: 8px; background: #FFFFFF; border: 1px solid #ccc; cursor: pointer;"></div>
   
-  <!-- カラーピッカー（隠しておく） -->
-  <input type="color" id="bgColorPicker" style="display: none;">
+  <!-- カラーパレットポップアップ -->
+  <div id="colorPopup" style="display: none; position: absolute; top: 50px; right: 0; background: white; border: 1px solid #ccc; border-radius: 12px; padding: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); z-index: 100;">
+    <input type="color" id="bgColorPicker" value="#FFFFFF" style="width: 100%; height: 40px; border: none; margin-bottom: 12px;">
+
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <div class="color-swatch" style="background: #FFFFFF;" data-color="#FFFFFF" title="Default"></div>
+      <div class="color-swatch" style="background: #F1F1EF;" data-color="#F1F1EF" title="Gray background"></div>
+      <div class="color-swatch" style="background: #F4EEEE;" data-color="#F4EEEE" title="Brown background"></div>
+      <div class="color-swatch" style="background: #FBECDD;" data-color="#FBECDD" title="Orange background"></div>
+      <div class="color-swatch" style="background: #FBF3DB;" data-color="#FBF3DB" title="Yellow background"></div>
+      <div class="color-swatch" style="background: #EDF3EC;" data-color="#EDF3EC" title="Green background"></div>
+      <div class="color-swatch" style="background: #E7F3F8;" data-color="#E7F3F8" title="Blue background"></div>
+      <div class="color-swatch" style="background: #F6F3F9;" data-color="#F6F3F9" title="Purple background"></div>
+      <div class="color-swatch" style="background: #fdebec;" data-color="#fdebec" title="Pink background"></div>
+      <div class="color-swatch" style="background: #FBE4E4;" data-color="#FBE4E4" title="Red background"></div>
+    </div>
+  </div>
+
 </div>
 
-<!-- デフォルトカラーセット -->
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-  <div class="color-swatch" style="background: #FFFFFF;" data-color="#FFFFFF" title="Default"></div>
-  <div class="color-swatch" style="background: #F1F1EF;" data-color="#F1F1EF" title="Gray background"></div>
-  <div class="color-swatch" style="background: #F4EEEE;" data-color="#F4EEEE" title="Brown background"></div>
-  <div class="color-swatch" style="background: #FBECDD;" data-color="#FBECDD" title="Orange background"></div>
-  <div class="color-swatch" style="background: #FBF3DB;" data-color="#FBF3DB" title="Yellow background"></div>
-  <div class="color-swatch" style="background: #EDF3EC;" data-color="#EDF3EC" title="Green background"></div>
-  <div class="color-swatch" style="background: #E7F3F8;" data-color="#E7F3F8" title="Blue background"></div>
-  <div class="color-swatch" style="background: #F6F3F9;" data-color="#F6F3F9" title="Purple background"></div>
-  <div class="color-swatch" style="background: #F8F3F2;" data-color="#F8F3F2" title="Pink background"></div>
-  <div class="color-swatch" style="background: #FBE4E4;" data-color="#FBE4E4" title="Red background"></div>
-</div>
 
-
-</div>
 
   <input type="color" id="bgColor" value="#191970">
 
@@ -292,6 +313,46 @@ document.querySelectorAll('.color-swatch').forEach(swatch => {
     const color = swatch.getAttribute('data-color');
     document.getElementById('bgColor').value = color;
     document.getElementById('bgColorPreview').style.background = color;
+    updateWidget();
+  });
+});
+// 背景色：カラーコード打ち込みで更新
+document.getElementById('bgColor').addEventListener('input', () => {
+  const color = document.getElementById('bgColor').value;
+  document.getElementById('bgColorPreview').style.background = color;
+  updateWidget();
+});
+
+// 色プレビュークリックでポップアップ開く/閉じる
+document.getElementById('bgColorPreview').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const popup = document.getElementById('colorPopup');
+  popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+});
+
+// ページ全体をクリックしたらポップアップを閉じる
+document.addEventListener('click', (e) => {
+  const popup = document.getElementById('colorPopup');
+  if (!e.target.closest('#colorPopup') && !e.target.closest('#bgColorPreview')) {
+    popup.style.display = 'none';
+  }
+});
+
+// カラーピッカーで選択したら反映
+document.getElementById('bgColorPicker').addEventListener('input', () => {
+  const color = document.getElementById('bgColorPicker').value;
+  document.getElementById('bgColor').value = color;
+  document.getElementById('bgColorPreview').style.background = color;
+  updateWidget();
+});
+
+// Notion色ボタン選択
+document.querySelectorAll('.color-swatch').forEach(swatch => {
+  swatch.addEventListener('click', () => {
+    const color = swatch.getAttribute('data-color');
+    document.getElementById('bgColor').value = color;
+    document.getElementById('bgColorPreview').style.background = color;
+    document.getElementById('bgColorPicker').value = color;
     updateWidget();
   });
 });
