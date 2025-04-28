@@ -82,73 +82,59 @@
   <div class="card">
   <h2>ウィジェット設定</h2>
 
-  <!-- 👇 ここ追加！ -->
+  <!-- テキスト入力 -->
   <label for="text">テキスト</label>
-  <input type="text" id="text" value="こんにちは">
+  <textarea id="text" rows="4" style="width:100%; padding:12px 14px; font-size:15px; border-radius:12px; border:1px solid #ccc; margin-bottom:20px; box-sizing:border-box;"></textarea>
 
+  <!-- 文字サイズ -->
   <label for="fontSize">文字サイズ(px)</label>
   <input type="number" id="fontSize" value="24">
+
+  <!-- フォント選択 -->
   <label>フォント</label>
-  <button id="toggleFontList" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 12px; background: white; cursor: pointer; font-size: 15px; text-align: left;">
-    ▶︎ フォントを選ぶ
-  </button>
+  <div style="position: relative;">
+    <button id="toggleFontList" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 12px; background: white; cursor: pointer; font-size: 15px; text-align: left;">
+      ▶︎ フォントを選ぶ
+    </button>
 
-  <ul id="fontList" style="list-style: none; padding: 0; margin: 10px 0 0 0; display: none;">
-    <li data-font="'Noto Sans JP', sans-serif" style="padding: 12px; cursor: pointer;">
-      <div style="font-family: 'Noto Sans JP', sans-serif;">
-        <strong>Noto Sans JP</strong><br><span style="color: #999; font-size: 12px;">文字もじモジ</span>
-      </div>
-    </li>
-    <li data-font="'M PLUS Rounded 1c', sans-serif" style="padding: 12px; cursor: pointer;">
-      <div style="font-family: 'M PLUS Rounded 1c', sans-serif;">
-        <strong>M PLUS Rounded 1c</strong><br><span style="color: #999; font-size: 12px;">文字もじモジ</span>
-      </div>
-    </li>
-    <li data-font="'Kosugi Maru', sans-serif" style="padding: 12px; cursor: pointer;">
-      <div style="font-family: 'Kosugi Maru', sans-serif;">
-        <strong>Kosugi Maru</strong><br><span style="color: #999; font-size: 12px;">文字もじモジ</span>
-      </div>
-    </li>
-    <li data-font="'Shippori Mincho', serif" style="padding: 12px; cursor: pointer;">
-      <div style="font-family: 'Shippori Mincho', serif;">
-        <strong>Shippori Mincho</strong><br><span style="color: #999; font-size: 12px;">文字もじモジ</span>
-      </div>
-    </li>
-    <li data-font="'Zen Maru Gothic', sans-serif" style="padding: 12px; cursor: pointer;">
-      <div style="font-family: 'Zen Maru Gothic', sans-serif;">
-        <strong>Zen Maru Gothic</strong><br><span style="color: #999; font-size: 12px;">文字もじモジ</span>
-      </div>
-    </li>
-  </ul>
+    <ul id="fontList" style="list-style: none; padding: 0; margin: 0; display: none; position: absolute; top: 100%; left: 0; width: 100%; background: white; border: 1px solid #ccc; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); z-index: 10;">
+      <li data-font="'Noto Sans JP', sans-serif" style="padding: 12px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif;">Noto Sans JP<br><span style="font-size: 12px; color: #999;">文字もじモジ</span></li>
+      <li data-font="'M PLUS Rounded 1c', sans-serif" style="padding: 12px; cursor: pointer; font-family: 'M PLUS Rounded 1c', sans-serif;">M PLUS Rounded 1c<br><span style="font-size: 12px; color: #999;">文字もじモジ</span></li>
+      <li data-font="'Kosugi Maru', sans-serif" style="padding: 12px; cursor: pointer; font-family: 'Kosugi Maru', sans-serif;">Kosugi Maru<br><span style="font-size: 12px; color: #999;">文字もじモジ</span></li>
+      <li data-font="'Shippori Mincho', serif" style="padding: 12px; cursor: pointer; font-family: 'Shippori Mincho', serif;">Shippori Mincho<br><span style="font-size: 12px; color: #999;">文字もじモジ</span></li>
+      <li data-font="'Zen Maru Gothic', sans-serif" style="padding: 12px; cursor: pointer; font-family: 'Zen Maru Gothic', sans-serif;">Zen Maru Gothic<br><span style="font-size: 12px; color: #999;">文字もじモジ</span></li>
+    </ul>
+  </div>
 
+  <!-- 背景色 -->
+  <label for="bgColor">背景色</label>
+  <input type="color" id="bgColor" value="#191970">
 
+  <!-- 文字色 -->
+  <label for="textColor">文字色</label>
+  <input type="color" id="textColor" value="#ffffff">
 
+  <!-- 形 -->
+  <label for="shape">形</label>
+  <select id="shape">
+    <option value="square">四角</option>
+    <option value="rounded">丸みあり</option>
+  </select>
 
+  <!-- 幅と高さ -->
+  <label for="width">幅(px)</label>
+  <input type="number" id="width" value="300">
+  <label for="height">高さ(px)</label>
+  <input type="number" id="height" value="150">
 
+  <!-- リンク表示 -->
+  <div style="margin-top: 30px;">
+    <h3>このウィジェットのリンク</h3>
+    <input type="text" id="generatedUrl" style="width: 100%; font-size: 14px; padding: 8px;" readonly>
+  </div>
 
-    <label for="bgColor">背景色</label>
-    <input type="color" id="bgColor" value="#191970">
+</div>
 
-    <label for="textColor">文字色</label>
-    <input type="color" id="textColor" value="#ffffff">
-
-    <label for="shape">形</label>
-    <select id="shape">
-      <option value="square">四角</option>
-      <option value="rounded">丸みあり</option>
-    </select>
-
-    <label for="width">幅(px)</label>
-    <input type="number" id="width" value="300">
-
-    <label for="height">高さ(px)</label>
-    <input type="number" id="height" value="150">
-
-    <div style="margin-top: 30px;">
-      <h3>このウィジェットのリンク</h3>
-      <input type="text" id="generatedUrl" style="width: 100%; font-size: 14px; padding: 8px;" readonly>
-    </div>
-    </div>
   </div>
 </div>
   
@@ -160,7 +146,7 @@
   </div>
 
   <script>
-    let selectedFontFamily = "'Noto Sans JP', sans-serif"; // デフォルト
+    let selectedFontFamily = "'Noto Sans JP', sans-serif";
 const widget = document.getElementById('widget');
 
 function updateWidget() {
@@ -173,7 +159,7 @@ function updateWidget() {
   const fontSize = document.getElementById('fontSize').value;
   const fontFamily = selectedFontFamily;
 
-  widget.innerHTML = text.replace(/\n/g, '<br>');
+  widget.innerHTML = text.replace(/\n/g, '<br>');  // 改行対応
   widget.style.backgroundColor = bgColor;
   widget.style.color = textColor;
   widget.style.width = width + 'px';
@@ -187,20 +173,20 @@ function updateWidget() {
   document.getElementById('generatedUrl').value = url;
 }
 
-// リスト開閉＋矢印切り替え
+// フォントリスト開閉＋矢印切り替え
 const toggleBtn = document.getElementById('toggleFontList');
 toggleBtn.addEventListener('click', () => {
   const fontList = document.getElementById('fontList');
   if (fontList.style.display === 'none') {
     fontList.style.display = 'block';
-    toggleBtn.innerHTML = "▶︎ フォントを選ぶ";
+    toggleBtn.innerHTML = "▼ フォントを選ぶ";
   } else {
     fontList.style.display = 'none';
-    toggleBtn.innerHTML = "▼ フォントを選ぶ";
+    toggleBtn.innerHTML = "▶︎ フォントを選ぶ";
   }
 });
 
-// フォント選択
+// フォント選択（リストは閉じない）
 document.querySelectorAll('#fontList li').forEach(li => {
   li.addEventListener('click', () => {
     const fontFamily = li.getAttribute('data-font');
@@ -214,21 +200,18 @@ document.querySelectorAll('#fontList li').forEach(li => {
     li.style.background = '#eef2f7';
     
     updateWidget();
-
-    // リストを閉じる＋ボタンを戻す
-    document.getElementById('fontList').style.display = 'none';
-    toggleBtn.innerHTML = "▼ フォントを選ぶ";
   });
 });
 
 window.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('input, select').forEach(el => {
+  document.querySelectorAll('input, select, textarea').forEach(el => {
     el.addEventListener('input', updateWidget);
     el.addEventListener('change', updateWidget);
   });
 
   updateWidget();
 });
+
 
 
 
