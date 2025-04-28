@@ -71,35 +71,6 @@
   backdrop-filter: blur(4px);
   outline: none;
 }
-.color-swatch {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.color-swatch:hover {
-  border: 2px solid #555;
-}
-.color-swatch {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.color-swatch:hover {
-  border: 2px solid #555;
-}
-#colorPopup {
-  animation: fadeIn 0.2s ease;
-}
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(-10px);}
-  to {opacity: 1; transform: translateY(0);}
-}
 .color-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -124,6 +95,8 @@
   from {opacity: 0; transform: translateY(-10px);}
   to {opacity: 1; transform: translateY(0);}
 }
+
+
 
 
     
@@ -164,16 +137,20 @@
   <!-- 背景色 -->
   <label for="bgColor">背景色</label>
 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; position: relative;">
+  
   <!-- カラーコード入力 -->
   <input type="text" id="bgColor" value="#FFFFFF" style="flex: 1; padding: 10px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
   
   <!-- 色プレビューボックス -->
   <div id="bgColorPreview" style="width: 28px; height: 28px; border-radius: 8px; background: #FFFFFF; border: 1px solid #ccc; cursor: pointer;"></div>
-  
-  <!-- ポップアップ -->
-  <div id="colorPopup" style="display: none; position: absolute; top: 50px; right: 0; background: white; border: 1px solid #ccc; border-radius: 12px; padding: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); z-index: 100; width: 240px;">
-    <input type="color" id="bgColorPicker" value="#FFFFFF" style="width: 100%; height: 40px; border: none; margin-bottom: 12px;">
 
+  <!-- カラーポップアップ -->
+  <div id="colorPopup" style="display: none; position: absolute; top: 50px; right: 0; background: white; border: 1px solid #ccc; border-radius: 12px; padding: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); z-index: 100; width: 240px;">
+    
+    <!-- カラーピッカー（HEX） -->
+    <input type="color" id="bgColorPicker" value="#FFFFFF" style="width: 100%; height: 40px; border: none; margin-bottom: 12px;">
+    
+    <!-- Notion Light Colors -->
     <div style="font-size: 12px; font-weight: bold; margin-bottom: 8px;">Notion Light</div>
     <div class="color-grid">
       <div class="color-swatch" style="background: #FFFFFF;" data-color="#FFFFFF"></div>
@@ -188,6 +165,7 @@
       <div class="color-swatch" style="background: #FBE4E4;" data-color="#FBE4E4"></div>
     </div>
 
+    <!-- Notion Dark Colors -->
     <div style="font-size: 12px; font-weight: bold; margin: 12px 0 8px;">Notion Dark</div>
     <div class="color-grid">
       <div class="color-swatch" style="background: #2F3437; border: 1px solid #fff;" data-color="#2F3437"></div>
@@ -201,8 +179,11 @@
       <div class="color-swatch" style="background: #5B3446;" data-color="#5B3446"></div>
       <div class="color-swatch" style="background: #5C2B29;" data-color="#5C2B29"></div>
     </div>
+
   </div>
+
 </div>
+
 
 
 
@@ -245,20 +226,73 @@
   </div>
 
   <script>
-    let selectedFontFamily = "'Noto Sans JP', sans-serif";
-const widget = document.getElementById('widget');
+// ーーーーーーーーーーーーーーー
+// 背景色管理
+// ーーーーーーーーーーーーーーー
+
+// 要素取得
+const bgColorInput = document.getElementById('bgColor');
+const bgColorPreview = document.getElementById('bgColorPreview');
+const bgColorPicker = document.getElementById('bgColorPicker');
+
+// 1. カラーコードを直接入力したら反映
+bgColorInput.addEventListener('input', () => {
+  const color = bgColorInput.value;
+  bgColorPreview.style.background = color;
+  bgColorPicker.value = color;
+  updateWidget();
+});
+
+// 2. 色プレビューを押したらポップアップ開閉
+bgColorPreview.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const popup = document.getElementById('colorPopup');
+  popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+});
+
+// 3. 他の場所をクリックしたらポップアップを閉じる
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#colorPopup') && !e.target.closest('#bgColorPreview')) {
+    document.getElementById('colorPopup').style.display = 'none';
+  }
+});
+
+// 4. カラーピッカーで選んだら反映
+bgColorPicker.addEventListener('input', () => {
+  const color = bgColorPicker.value;
+  bgColorInput.value = color;
+  bgColorPreview.style.background = color;
+  updateWidget();
+});
+
+// 5. Notionカラーパレットを押したら反映
+document.querySelectorAll('.color-swatch').forEach(swatch => {
+  swatch.addEventListener('click', () => {
+    const color = swatch.getAttribute('data-color');
+    bgColorInput.value = color;
+    bgColorPreview.style.background = color;
+    bgColorPicker.value = color;
+    updateWidget();
+  });
+});
+
+// ーーーーーーーーーーーーーーー
+// ウィジェット更新
+// ーーーーーーーーーーーーーーー
 
 function updateWidget() {
+  const widget = document.getElementById('widget');
+  
   const text = document.getElementById('text').value;
   const bgColor = document.getElementById('bgColor').value;
-  const textColor = document.getElementById('textColor').value;
+  const textColor = document.getElementById('textColor') ? document.getElementById('textColor').value : '#000000'; // 文字色まだ作業中だから仮
   const shape = document.getElementById('shape').value;
   const width = document.getElementById('width').value;
   const height = document.getElementById('height').value;
-  const fontSize = document.getElementById('fontSize').value;
-  const fontFamily = selectedFontFamily;
+  const fontSize = document.getElementById('fontSize') ? document.getElementById('fontSize').value : 24;
+  const fontFamily = selectedFontFamily || "'Noto Sans JP', sans-serif";
 
-  widget.innerHTML = text.replace(/\n/g, '<br>');  // 改行対応
+  widget.innerText = text;
   widget.style.backgroundColor = bgColor;
   widget.style.color = textColor;
   widget.style.width = width + 'px';
@@ -269,181 +303,16 @@ function updateWidget() {
 
   const baseUrl = window.location.origin + window.location.pathname.replace('index.html', 'widget.html');
   const url = `${baseUrl}?text=${encodeURIComponent(text)}&bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&shape=${shape}&width=${width}&height=${height}&fontSize=${fontSize}&fontFamily=${encodeURIComponent(fontFamily)}`;
+  
   document.getElementById('generatedUrl').value = url;
 }
 
-// フォントリスト開閉＋矢印切り替え
-const toggleBtn = document.getElementById('toggleFontList');
-toggleBtn.addEventListener('click', () => {
-  const fontList = document.getElementById('fontList');
-  if (fontList.style.display === 'none') {
-    fontList.style.display = 'block';
-    toggleBtn.innerHTML = "▼ フォントを選ぶ";
-  } else {
-    fontList.style.display = 'none';
-    toggleBtn.innerHTML = "▶︎ フォントを選ぶ";
-  }
-});
-
-// フォント選択（リストは閉じない）
-document.querySelectorAll('#fontList li').forEach(li => {
-  li.addEventListener('click', () => {
-    const fontFamily = li.getAttribute('data-font');
-    selectedFontFamily = fontFamily;
-    widget.style.fontFamily = fontFamily;
-
-    // ハイライト
-    document.querySelectorAll('#fontList li').forEach(item => {
-      item.style.background = 'transparent';
-    });
-    li.style.background = '#eef2f7';
-    
-    updateWidget();
-  });
-});
-
+// 最初にウィジェットを更新しておく
 window.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('input, select, textarea').forEach(el => {
-    el.addEventListener('input', updateWidget);
-    el.addEventListener('change', updateWidget);
-  });
-
-  updateWidget();
-
-
-});
-
-// 色のボタンを押したらテキストボックスに反映
-document.querySelectorAll('.color-swatch').forEach(swatch => {
-  swatch.addEventListener('click', () => {
-    const color = swatch.getAttribute('data-color');
-    document.getElementById('bgColor').value = color;
-    updateWidget(); // ウィジェット更新
-  });
-});
-
-// テキスト入力でもリアルタイム反映
-document.getElementById('bgColor').addEventListener('input', updateWidget);
-
-// カラーコードを変更したらプレビューとウィジェットに反映
-document.getElementById('bgColor').addEventListener('input', () => {
-  const color = document.getElementById('bgColor').value;
-  document.getElementById('bgColorPreview').style.background = color;
   updateWidget();
 });
+</script>
 
-// 色プレビューをクリックしたらカラーピッカー開く
-document.getElementById('bgColorPreview').addEventListener('click', () => {
-  document.getElementById('bgColorPicker').click();
-});
-
-// カラーピッカーで色選んだらコードにも反映
-document.getElementById('bgColorPicker').addEventListener('input', () => {
-  const color = document.getElementById('bgColorPicker').value;
-  document.getElementById('bgColor').value = color;
-  document.getElementById('bgColorPreview').style.background = color;
-  updateWidget();
-});
-
-// デフォルト色ボタンから選んだとき
-document.querySelectorAll('.color-swatch').forEach(swatch => {
-  swatch.addEventListener('click', () => {
-    const color = swatch.getAttribute('data-color');
-    document.getElementById('bgColor').value = color;
-    document.getElementById('bgColorPreview').style.background = color;
-    updateWidget();
-  });
-});
-// 背景色：カラーコード打ち込みで更新
-document.getElementById('bgColor').addEventListener('input', () => {
-  const color = document.getElementById('bgColor').value;
-  document.getElementById('bgColorPreview').style.background = color;
-  updateWidget();
-});
-
-// 色プレビュークリックでポップアップ開く/閉じる
-document.getElementById('bgColorPreview').addEventListener('click', (e) => {
-  e.stopPropagation();
-  const popup = document.getElementById('colorPopup');
-  popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-});
-
-// ページ全体をクリックしたらポップアップを閉じる
-document.addEventListener('click', (e) => {
-  const popup = document.getElementById('colorPopup');
-  if (!e.target.closest('#colorPopup') && !e.target.closest('#bgColorPreview')) {
-    popup.style.display = 'none';
-  }
-});
-
-// カラーピッカーで選択したら反映
-document.getElementById('bgColorPicker').addEventListener('input', () => {
-  const color = document.getElementById('bgColorPicker').value;
-  document.getElementById('bgColor').value = color;
-  document.getElementById('bgColorPreview').style.background = color;
-  updateWidget();
-});
-
-// Notion色ボタン選択
-document.querySelectorAll('.color-swatch').forEach(swatch => {
-  swatch.addEventListener('click', () => {
-    const color = swatch.getAttribute('data-color');
-    document.getElementById('bgColor').value = color;
-    document.getElementById('bgColorPreview').style.background = color;
-    document.getElementById('bgColorPicker').value = color;
-    updateWidget();
-  });
-});
-  const bgColorInput = document.getElementById('bgColor');
-const bgColorPreview = document.getElementById('bgColorPreview');
-const bgColorPicker = document.getElementById('bgColorPicker');
-
-// 入力欄直接打ったら更新
-bgColorInput.addEventListener('input', () => {
-  const color = bgColorInput.value;
-  bgColorPreview.style.background = color;
-  bgColorPicker.value = color;
-  updateWidget();
-});
-
-// プレビュー押したら開閉
-bgColorPreview.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const popup = document.getElementById('colorPopup');
-  popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-});
-
-// ページクリックで閉じる
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('#colorPopup') && !e.target.closest('#bgColorPreview')) {
-    document.getElementById('colorPopup').style.display = 'none';
-  }
-});
-
-// カラーピッカー変更
-bgColorPicker.addEventListener('input', () => {
-  const color = bgColorPicker.value;
-  bgColorInput.value = color;
-  bgColorPreview.style.background = color;
-  updateWidget();
-});
-
-// Notionカラークリック
-document.querySelectorAll('.color-swatch').forEach(swatch => {
-  swatch.addEventListener('click', (e) => {
-    const color = swatch.getAttribute('data-color');
-    bgColorInput.value = color;
-    bgColorPreview.style.background = color;
-    bgColorPicker.value = color;
-    updateWidget();
-  });
-});
-
-
-
-
-
-  </script>
 
 </body>
 </html>
