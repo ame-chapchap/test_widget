@@ -122,32 +122,30 @@
     const widget = document.getElementById('widget');
 
     function updateWidget() {
-      const text = document.getElementById('text').value;
-      const bgColor = document.getElementById('bgColor').value;
-      const textColor = document.getElementById('textColor').value;
-      const shape = document.getElementById('shape').value;
-      const width = document.getElementById('width').value;
-      const height = document.getElementById('height').value;
-      const fontSize = document.getElementById('fontSize').value;
-const fontFamily = document.getElementById('fontFamily').value;
+  const text = document.getElementById('text').value;
+  const bgColor = document.getElementById('bgColor').value;
+  const textColor = document.getElementById('textColor').value;
+  const shape = document.getElementById('shape').value;
+  const width = document.getElementById('width').value;
+  const height = document.getElementById('height').value;
+  const fontSize = document.getElementById('fontSize').value;
+  const fontFamily = document.getElementById('fontFamily').value;
 
-widget.style.fontSize = fontSize + 'px';
-widget.style.fontFamily = fontFamily;
+  widget.textContent = text;
+  widget.style.backgroundColor = bgColor;
+  widget.style.color = textColor;
+  widget.style.width = width + 'px';
+  widget.style.height = height + 'px';
+  widget.style.fontSize = fontSize + 'px';
+  widget.style.fontFamily = fontFamily;
+  widget.style.borderRadius = shape === 'rounded' ? '16px' : '0px';
 
+  // --- URL生成処理 ---
+  const baseUrl = window.location.origin + window.location.pathname;
+  const url = `${baseUrl}?text=${encodeURIComponent(text)}&bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&shape=${shape}&width=${width}&height=${height}&fontSize=${fontSize}&fontFamily=${encodeURIComponent(fontFamily)}`;
+  document.getElementById('generatedUrl').value = url;
+}
 
-      widget.textContent = text;
-      widget.style.backgroundColor = bgColor;
-      widget.style.color = textColor;
-      widget.style.width = width + 'px';
-      widget.style.height = height + 'px';
-      widget.style.borderRadius = shape === 'rounded' ? '16px' : '0px';
-
-      // --- URL生成処理を追加 ---
-      const baseUrl = window.location.origin + window.location.pathname;
-      const url = `${baseUrl}?text=${encodeURIComponent(text)}&bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&shape=${shape}&width=${width}&height=${height}`;
-      document.getElementById('generatedUrl').value = url;
-    }
-    const url = `${baseUrl}?text=${encodeURIComponent(text)}&bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&shape=${shape}&width=${width}&height=${height}&fontSize=${fontSize}&fontFamily=${encodeURIComponent(fontFamily)}`;
 
 
     document.querySelectorAll('input, select').forEach(el => {
