@@ -136,7 +136,7 @@
   widget.style.borderRadius = shape === 'rounded' ? '16px' : '0px';
 
   // --- URL生成処理 ---
-  const baseUrl = window.location.origin + window.location.pathname;
+  const baseUrl = window.location.origin + window.location.pathname.replace('index.html', 'widget.html');
   const url = `${baseUrl}?text=${encodeURIComponent(text)}&bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&shape=${shape}&width=${width}&height=${height}&fontSize=${fontSize}&fontFamily=${encodeURIComponent(fontFamily)}`;
   document.getElementById('generatedUrl').value = url;
 }
