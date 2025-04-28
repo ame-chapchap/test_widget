@@ -89,17 +89,37 @@
 <input type="number" id="fontSize" value="24">
 
 <label for="fontFamily">フォント</label>
-<select id="fontFamily">
-  <option value="'Noto Sans JP', sans-serif" style="font-family: 'Noto Sans JP', sans-serif;">Noto Sans JP</option>
-  <option value="'Arial', sans-serif" style="font-family: 'Arial', sans-serif;">Arial</option>
-  <option value="'Courier New', monospace" style="font-family: 'Courier New', monospace;">Courier New</option>
-  <option value="'Yu Gothic', sans-serif" style="font-family: 'Yu Gothic', sans-serif;">游ゴシック体</option>
-  <option value="'M PLUS Rounded 1c', sans-serif" style="font-family: 'M PLUS Rounded 1c', sans-serif;">M PLUS Rounded 1c</option>
-  <option value="'Kosugi Maru', sans-serif" style="font-family: 'Kosugi Maru', sans-serif;">Kosugi Maru</option>
-  <option value="'Shippori Mincho', serif" style="font-family: 'Shippori Mincho', serif;">Shippori Mincho</option>
-  <option value="'Zen Maru Gothic', sans-serif" style="font-family: 'Zen Maru Gothic', sans-serif;">Zen Maru Gothic</option>
-  <option value="'Noto Serif JP', serif" style="font-family: 'Noto Serif JP', serif;">Noto Serif JP</option>
-</select>
+<div class="card">
+  <h3>フォント選択</h3>
+  <ul id="fontList" style="list-style: none; padding: 0; margin: 0;">
+    <li data-font="'Noto Sans JP', sans-serif" style="padding: 10px; cursor: pointer;">
+      <div style="font-family: 'Noto Sans JP', sans-serif;">
+        <strong>Noto Sans JP</strong> <span style="color: #999;">文字もじモジ</span>
+      </div>
+    </li>
+    <li data-font="'M PLUS Rounded 1c', sans-serif" style="padding: 10px; cursor: pointer;">
+      <div style="font-family: 'M PLUS Rounded 1c', sans-serif;">
+        <strong>M PLUS Rounded 1c</strong> <span style="color: #999;">文字もじモジ</span>
+      </div>
+    </li>
+    <li data-font="'Kosugi Maru', sans-serif" style="padding: 10px; cursor: pointer;">
+      <div style="font-family: 'Kosugi Maru', sans-serif;">
+        <strong>Kosugi Maru</strong> <span style="color: #999;">文字もじモジ</span>
+      </div>
+    </li>
+    <li data-font="'Shippori Mincho', serif" style="padding: 10px; cursor: pointer;">
+      <div style="font-family: 'Shippori Mincho', serif;">
+        <strong>Shippori Mincho</strong> <span style="color: #999;">文字もじモジ</span>
+      </div>
+    </li>
+    <li data-font="'Zen Maru Gothic', sans-serif" style="padding: 10px; cursor: pointer;">
+      <div style="font-family: 'Zen Maru Gothic', sans-serif;">
+        <strong>Zen Maru Gothic</strong> <span style="color: #999;">文字もじモジ</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
 
 
     <label for="bgColor">背景色</label>
@@ -167,12 +187,22 @@
   document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('input', updateWidget);
     el.addEventListener('change', updateWidget); // ←これ超大事！！
+
+    document.querySelectorAll('#fontList li').forEach(li => {
+  li.addEventListener('click', () => {
+    const fontFamily = li.getAttribute('data-font');
+    document.getElementById('widget').style.fontFamily = fontFamily;
+
+    // フォント選んだら一応テキストボックスにも反映させたい場合
+    // document.getElementById('fontFamily').value = fontFamily;
+
+    updateWidget(); // フォントも含めたURL更新！
   });
 });
 
 
 
-    updateWidget();
+
   </script>
 
 </body>
