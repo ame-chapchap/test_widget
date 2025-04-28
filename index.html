@@ -90,7 +90,7 @@
   <input type="number" id="fontSize" value="24">
   <label>フォント</label>
   <button id="toggleFontList" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 12px; background: white; cursor: pointer; font-size: 15px; text-align: left;">
-    ▼ フォントを選ぶ
+    ▶︎ フォントを選ぶ
   </button>
 
   <ul id="fontList" style="list-style: none; padding: 0; margin: 10px 0 0 0; display: none;">
@@ -120,7 +120,7 @@
       </div>
     </li>
   </ul>
-</div>
+
 
 
 
@@ -150,6 +150,8 @@
     </div>
     </div>
   </div>
+</div>
+  
 
   <div class="main">
     <div class="widget" id="widget">
@@ -171,7 +173,7 @@ function updateWidget() {
   const fontSize = document.getElementById('fontSize').value;
   const fontFamily = selectedFontFamily;
 
-  widget.textContent = text;
+  widget.innerHTML = text.replace(/\n/g, '<br>');
   widget.style.backgroundColor = bgColor;
   widget.style.color = textColor;
   widget.style.width = width + 'px';
@@ -191,7 +193,7 @@ toggleBtn.addEventListener('click', () => {
   const fontList = document.getElementById('fontList');
   if (fontList.style.display === 'none') {
     fontList.style.display = 'block';
-    toggleBtn.innerHTML = "▲ フォントを選ぶ";
+    toggleBtn.innerHTML = "▶︎ フォントを選ぶ";
   } else {
     fontList.style.display = 'none';
     toggleBtn.innerHTML = "▼ フォントを選ぶ";
