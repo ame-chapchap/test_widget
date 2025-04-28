@@ -71,7 +71,19 @@
   backdrop-filter: blur(4px);
   outline: none;
 }
+.color-swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.color-swatch:hover {
+  border: 2px solid #555;
+}
 
+    
 </style>
 
 
@@ -108,6 +120,23 @@
 
   <!-- 背景色 -->
   <label for="bgColor">背景色</label>
+<div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+  
+  <!-- カラーコード入力欄 -->
+  <input type="text" id="bgColor" value="#191970" style="padding: 10px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc;">
+
+  <!-- デフォルト色ボタンたち -->
+  <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+    <div class="color-swatch" style="background: #191970;" data-color="#191970"></div>
+    <div class="color-swatch" style="background: #37352F;" data-color="#37352F"></div>
+    <div class="color-swatch" style="background: #F6F5F4;" data-color="#F6F5F4"></div>
+    <div class="color-swatch" style="background: #EB5757;" data-color="#EB5757"></div>
+    <div class="color-swatch" style="background: #2D9CDB;" data-color="#2D9CDB"></div>
+    <div class="color-swatch" style="background: #27AE60;" data-color="#27AE60"></div>
+  </div>
+
+</div>
+
   <input type="color" id="bgColor" value="#191970">
 
   <!-- 文字色 -->
@@ -210,8 +239,21 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   updateWidget();
+
+
 });
 
+// 色のボタンを押したらテキストボックスに反映
+document.querySelectorAll('.color-swatch').forEach(swatch => {
+  swatch.addEventListener('click', () => {
+    const color = swatch.getAttribute('data-color');
+    document.getElementById('bgColor').value = color;
+    updateWidget(); // ウィジェット更新
+  });
+});
+
+// テキスト入力でもリアルタイム反映
+document.getElementById('bgColor').addEventListener('input', updateWidget);
 
 
 
