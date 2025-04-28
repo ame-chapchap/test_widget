@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Widget</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .widget {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      background-color: #191970;
+      color: #ffffff;
+      width: 300px;
+      height: 150px;
+      border-radius: 0px;
+      font-size: 24px;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="widget" id="widget">
+    Loading...
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+
+    const text = params.get('text') || 'Hello!';
+    const bgColor = params.get('bgColor') || '#191970';
+    const textColor = params.get('textColor') || '#ffffff';
+    const shape = params.get('shape') || 'square';
+    const width = params.get('width') || '300';
+    const height = params.get('height') || '150';
+    const fontSize = params.get('fontSize') || '24';
+    const fontFamily = params.get('fontFamily') || "'Noto Sans JP', sans-serif";
+
+    const widget = document.getElementById('widget');
+    widget.textContent = text;
+    widget.style.backgroundColor = bgColor;
+    widget.style.color = textColor;
+    widget.style.width = width + 'px';
+    widget.style.height = height + 'px';
+    widget.style.fontSize = fontSize + 'px';
+    widget.style.fontFamily = fontFamily;
+    widget.style.borderRadius = shape === 'rounded' ? '16px' : '0px';
+  </script>
+
+</body>
+</html>
