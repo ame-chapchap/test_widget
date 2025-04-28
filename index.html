@@ -10,24 +10,26 @@
     display: flex;
     height: 100vh;
     font-family: 'Noto Sans JP', sans-serif;
-    background: #f0f2f5;
+    background: #edf0f5;
   }
   .sidebar {
-    width: 320px;
-    background: #f0f2f5;
-    padding: 20px;
+    width: 340px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    padding: 30px;
     box-sizing: border-box;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid rgba(200, 200, 200, 0.4);
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.05);
   }
   .card {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    padding: 24px;
   }
   .main {
     flex-grow: 1;
@@ -35,7 +37,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px;
+    padding: 60px;
   }
   .widget {
     display: flex;
@@ -46,21 +48,30 @@
     color: #ffffff;
     width: 300px;
     height: 150px;
-    border-radius: 16px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
   }
   label {
     display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
     color: #333;
   }
   input, select {
-  width: 100%;
-  box-sizing: border-box;
-}
-
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(4px);
+    outline: none;
+  }
 </style>
+
 
 </head>
 <body>
