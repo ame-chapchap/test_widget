@@ -5,223 +5,267 @@
   <title>Widget Builder</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=M+PLUS+Rounded+1c&family=Kosugi+Maru&family=Shippori+Mincho+B1&family=Zen+Maru+Gothic&family=Noto+Serif+JP&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      display: flex;
-      height: 100vh;
-      font-family: 'Noto Sans JP', sans-serif;
-      background: #edf0f5;
-    }
-    .sidebar {
-      width: 340px;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(10px);
-      padding: 30px;
-      box-sizing: border-box;
-      border-right: 1px solid rgba(200, 200, 200, 0.4);
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      box-shadow: 4px 0 10px rgba(0,0,0,0.05);
-    }
-    .card {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      padding: 24px;
-    }
-    .main {
-      flex-grow: 1;
-      background: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 60px;
-    }
-    .widget {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      white-space: pre-wrap;
-      font-weight: bold;
-      background-color: #191970;
-      color: #ffffff;
-      width: 300px;
-      height: 150px;
-      border-radius: 20px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      padding: 10px;
-      box-sizing: border-box;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #333;
-    }
-    input, select {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 12px 14px;
-      font-size: 15px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      background: rgba(255,255,255,0.8);
-      backdrop-filter: blur(4px);
-      outline: none;
-    }
-    .color-input-container {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .color-preview {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      background: #191970;
-    }
-    #colorPopup {
-      position: absolute;
-      background: white;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      border-radius: 12px;
-      padding: 16px;
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 1000;
-    }
-    .color-swatch {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      display: inline-block;
-    }
-    .swatch-section {
-      margin-top: 10px;
-    }
-    .swatch-section h4 {
-      margin: 8px 0 4px;
-      font-size: 12px;
-      font-weight: bold;
-      color: #555;
-    }
-  </style>
-</head>
+  body {
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #edf0f5;
+  }
+  .sidebar {
+    width: 340px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    box-sizing: border-box;
+    border-right: 1px solid rgba(200, 200, 200, 0.4);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+  }
+  .card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    padding: 24px;
+  }
+  .main {
+    flex-grow: 1;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+  }
+  .widget {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    background-color: #191970;
+    color: #ffffff;
+    width: 300px;
+    height: 150px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  }
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+  }
+  input, select {
+  width: 100%;
+  box-sizing: border-box; /* ★ここ追加！ */
+  padding: 12px 14px;
+  font-size: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(4px);
+  outline: none;
+}
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.color-swatch:hover {
+  border: 2px solid #555;
+}
+#colorPopup {
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
 
+
+
+
+    
+</style>
+
+
+</head>
 <body>
 
-<div class="sidebar">
+  <div class="sidebar">
   <div class="card">
-    <h2>ウィジェット設定</h2>
+  <h2>ウィジェット設定</h2>
 
-    <label for="text">テキスト</label>
-    <textarea id="text" style="height:80px; resize: vertical;">こんにちは！</textarea>
+  <!-- テキスト入力 -->
+  <label for="text">テキスト</label>
+  <textarea id="text" rows="4" style="width:100%; padding:12px 14px; font-size:15px; border-radius:12px; border:1px solid #ccc; margin-bottom:20px; box-sizing:border-box;"></textarea>
 
-    <label for="fontSize">文字サイズ(px)</label>
-    <input type="number" id="fontSize" value="24">
+  <!-- 文字サイズ -->
+  <label for="fontSize">文字サイズ(px)</label>
+  <input type="number" id="fontSize" value="24">
 
-    <label>背景色</label>
-    <div class="color-input-container">
-      <input type="text" id="bgColor" value="#191970">
-      <div id="bgColorPreview" class="color-preview"></div>
-    </div>
+  <!-- フォント選択 -->
+  <label>フォント</label>
+  <div style="position: relative;">
+    <button id="toggleFontList" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 12px; background: white; cursor: pointer; font-size: 15px; text-align: left;">
+      ▶︎ フォントを選ぶ
+    </button>
 
-    <div id="colorPopup">
-      <input type="color" id="bgColorPicker" style="width:100%; height:40px;">
-      <div class="swatch-section">
-        <h4>Notion Light</h4>
-        <div>
-          <div class="color-swatch" style="background:#FFFFFF" data-color="#FFFFFF"></div>
-          <div class="color-swatch" style="background:#F1F1EF" data-color="#F1F1EF"></div>
-          <div class="color-swatch" style="background:#F4EEEE" data-color="#F4EEEE"></div>
-          <div class="color-swatch" style="background:#FBECDD" data-color="#FBECDD"></div>
-          <div class="color-swatch" style="background:#FBF3DB" data-color="#FBF3DB"></div>
-          <div class="color-swatch" style="background:#EDF3EC" data-color="#EDF3EC"></div>
-          <div class="color-swatch" style="background:#E7F3F8" data-color="#E7F3F8"></div>
-          <div class="color-swatch" style="background:#F6F3F9" data-color="#F6F3F9"></div>
-          <div class="color-swatch" style="background:#F8F3F2" data-color="#F8F3F2"></div>
-          <div class="color-swatch" style="background:#FDEBEC" data-color="#FDEBEC"></div>
-        </div>
-      </div>
-      <div class="swatch-section">
-        <h4>Notion Dark</h4>
-        <div>
-          <div class="color-swatch" style="background:#2F3437" data-color="#2F3437"></div>
-          <div class="color-swatch" style="background:#3F4042" data-color="#3F4042"></div>
-          <div class="color-swatch" style="background:#64473A" data-color="#64473A"></div>
-          <div class="color-swatch" style="background:#7B5A36" data-color="#7B5A36"></div>
-          <div class="color-swatch" style="background:#735C30" data-color="#735C30"></div>
-          <div class="color-swatch" style="background:#314C40" data-color="#314C40"></div>
-          <div class="color-swatch" style="background:#2D545E" data-color="#2D545E"></div>
-          <div class="color-swatch" style="background:#44355B" data-color="#44355B"></div>
-          <div class="color-swatch" style="background:#5B3446" data-color="#5B3446"></div>
-          <div class="color-swatch" style="background:#5C2B29" data-color="#5C2B29"></div>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-top: 30px;">
-      <h3>このウィジェットのリンク</h3>
-      <input type="text" id="generatedUrl" readonly>
-    </div>
+    <ul id="fontList" style="list-style: none; padding: 0; margin: 0; display: none; position: absolute; top: 100%; left: 0; width: 100%; background: white; border: 1px solid #ccc; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); z-index: 10;">
+      <li data-font="'Noto Sans JP', sans-serif" style="padding: 12px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif;">Noto Sans JP<br><span style="font-size: 12px; color: #999;">文字もじモジ</span></li>
+      <li data-font="'M PLUS Rounded 1c', sans-serif" style="padding: 12px; cursor: pointer; font-family: 'M PLUS Rounded 1c', sans-serif;">M PLUS Rounded 1c<br><span style="font-size: 12px; color: #999;">文字もじモジ</span></li>
+      <li data-font="'Kosugi Maru', sans-serif" style="padding: 12px; cursor: pointer; font-family: 'Kosugi Maru', sans-serif;">Kosugi Maru<br><span style="font-size: 12px; color: #999;">文字もじモジ</span></li>
+      <li data-font="'Shippori Mincho', serif" style="padding: 12px; cursor: pointer; font-family: 'Shippori Mincho', serif;">Shippori Mincho<br><span style="font-size: 12px; color: #999;">文字もじモジ</span></li>
+      <li data-font="'Zen Maru Gothic', sans-serif" style="padding: 12px; cursor: pointer; font-family: 'Zen Maru Gothic', sans-serif;">Zen Maru Gothic<br><span style="font-size: 12px; color: #999;">文字もじモジ</span></li>
+    </ul>
   </div>
+
+  <!-- 背景色 -->
+  <label for="bgColor">背景色</label>
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; position: relative;">
+  
+  <!-- カラーコード入力 -->
+  <input type="text" id="bgColor" value="#FFFFFF" style="flex: 1; padding: 10px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+  
+  <!-- 色プレビューボックス -->
+  <div id="bgColorPreview" style="width: 28px; height: 28px; border-radius: 8px; background: #FFFFFF; border: 1px solid #ccc; cursor: pointer;"></div>
+
+  <!-- カラーポップアップ -->
+  <div id="colorPopup" style="display: none; position: absolute; top: 50px; right: 0; background: white; border: 1px solid #ccc; border-radius: 12px; padding: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); z-index: 100; width: 240px;">
+    
+    <!-- カラーピッカー（HEX） -->
+    <input type="color" id="bgColorPicker" value="#FFFFFF" style="width: 100%; height: 40px; border: none; margin-bottom: 12px;">
+    
+    <!-- Notion Light Colors -->
+    <div style="font-size: 12px; font-weight: bold; margin-bottom: 8px;">Notion Light</div>
+    <div class="color-grid">
+      <div class="color-swatch" style="background: #FFFFFF;" data-color="#FFFFFF"></div>
+      <div class="color-swatch" style="background: #F1F1EF;" data-color="#F1F1EF"></div>
+      <div class="color-swatch" style="background: #F4EEEE;" data-color="#F4EEEE"></div>
+      <div class="color-swatch" style="background: #FBECDD;" data-color="#FBECDD"></div>
+      <div class="color-swatch" style="background: #FBF3DB;" data-color="#FBF3DB"></div>
+      <div class="color-swatch" style="background: #EDF3EC;" data-color="#EDF3EC"></div>
+      <div class="color-swatch" style="background: #E7F3F8;" data-color="#E7F3F8"></div>
+      <div class="color-swatch" style="background: #F6F3F9;" data-color="#F6F3F9"></div>
+      <div class="color-swatch" style="background: #fdebec;" data-color="#fdebec"></div>
+      <div class="color-swatch" style="background: #FBE4E4;" data-color="#FBE4E4"></div>
+    </div>
+
+    <!-- Notion Dark Colors -->
+    <div style="font-size: 12px; font-weight: bold; margin: 12px 0 8px;">Notion Dark</div>
+    <div class="color-grid">
+      <div class="color-swatch" style="background: #2F3437; border: 1px solid #fff;" data-color="#2F3437"></div>
+      <div class="color-swatch" style="background: #3F4042;" data-color="#3F4042"></div>
+      <div class="color-swatch" style="background: #64473A;" data-color="#64473A"></div>
+      <div class="color-swatch" style="background: #7B5A36;" data-color="#7B5A36"></div>
+      <div class="color-swatch" style="background: #735C30;" data-color="#735C30"></div>
+      <div class="color-swatch" style="background: #314C40;" data-color="#314C40"></div>
+      <div class="color-swatch" style="background: #2D545E;" data-color="#2D545E"></div>
+      <div class="color-swatch" style="background: #44355B;" data-color="#44355B"></div>
+      <div class="color-swatch" style="background: #5B3446;" data-color="#5B3446"></div>
+      <div class="color-swatch" style="background: #5C2B29;" data-color="#5C2B29"></div>
+    </div>
+
+  </div>
+
 </div>
 
-<div class="main">
-  <div class="widget" id="widget">
-    こんにちは！
+
+
+
+
+  <input type="color" id="bgColor" value="#191970">
+
+  <!-- 文字色 -->
+  <label for="textColor">文字色</label>
+  <input type="color" id="textColor" value="#ffffff">
+
+  <!-- 形 -->
+  <label for="shape">形</label>
+  <select id="shape">
+    <option value="square">四角</option>
+    <option value="rounded">丸みあり</option>
+  </select>
+
+  <!-- 幅と高さ -->
+  <label for="width">幅(px)</label>
+  <input type="number" id="width" value="300">
+  <label for="height">高さ(px)</label>
+  <input type="number" id="height" value="150">
+
+  <!-- リンク表示 -->
+  <div style="margin-top: 30px;">
+    <h3>このウィジェットのリンク</h3>
+    <input type="text" id="generatedUrl" style="width: 100%; font-size: 14px; padding: 8px;" readonly>
   </div>
+
 </div>
 
-<script>
-const widget = document.getElementById('widget');
+  </div>
+</div>
+  
+
+  <div class="main">
+    <div class="widget" id="widget">
+      こんにちは
+    </div>
+  </div>
+
+  <script>
+// ーーーーーーーーーーーーーーー
+// 背景色管理
+// ーーーーーーーーーーーーーーー
+
+// 要素取得
 const bgColorInput = document.getElementById('bgColor');
 const bgColorPreview = document.getElementById('bgColorPreview');
 const bgColorPicker = document.getElementById('bgColorPicker');
 
-function updateWidget() {
-  const text = document.getElementById('text').value;
-  const bgColor = bgColorInput.value;
-  const fontSize = document.getElementById('fontSize').value;
-
-  widget.innerText = text;
-  widget.style.backgroundColor = bgColor;
-  widget.style.fontSize = fontSize + 'px';
-
-  const baseUrl = window.location.origin + window.location.pathname.replace('index.html', 'widget.html');
-  const url = `${baseUrl}?text=${encodeURIComponent(text)}&bgColor=${encodeURIComponent(bgColor)}&fontSize=${fontSize}`;
-  document.getElementById('generatedUrl').value = url;
-}
-
+// 1. カラーコードを直接入力したら反映
 bgColorInput.addEventListener('input', () => {
-  bgColorPreview.style.background = bgColorInput.value;
-  bgColorPicker.value = bgColorInput.value;
+  const color = bgColorInput.value;
+  bgColorPreview.style.background = color;
+  bgColorPicker.value = color;
   updateWidget();
 });
 
+// 2. 色プレビューを押したらポップアップ開閉
 bgColorPreview.addEventListener('click', (e) => {
   e.stopPropagation();
   const popup = document.getElementById('colorPopup');
   popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
 });
 
+// 3. 他の場所をクリックしたらポップアップを閉じる
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#colorPopup') && !e.target.closest('#bgColorPreview')) {
+    document.getElementById('colorPopup').style.display = 'none';
+  }
+});
+
+// 4. カラーピッカーで選んだら反映
 bgColorPicker.addEventListener('input', () => {
-  bgColorInput.value = bgColorPicker.value;
-  bgColorPreview.style.background = bgColorPicker.value;
+  const color = bgColorPicker.value;
+  bgColorInput.value = color;
+  bgColorPreview.style.background = color;
   updateWidget();
 });
 
+// 5. Notionカラーパレットを押したら反映
 document.querySelectorAll('.color-swatch').forEach(swatch => {
   swatch.addEventListener('click', () => {
     const color = swatch.getAttribute('data-color');
@@ -232,20 +276,43 @@ document.querySelectorAll('.color-swatch').forEach(swatch => {
   });
 });
 
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('#colorPopup') && !e.target.closest('#bgColorPreview')) {
-    document.getElementById('colorPopup').style.display = 'none';
-  }
-});
+// ーーーーーーーーーーーーーーー
+// ウィジェット更新
+// ーーーーーーーーーーーーーーー
 
-document.getElementById('text').addEventListener('input', updateWidget);
-document.getElementById('fontSize').addEventListener('input', updateWidget);
+function updateWidget() {
+  const widget = document.getElementById('widget');
+  
+  const text = document.getElementById('text').value;
+  const bgColor = document.getElementById('bgColor').value;
+  const textColor = document.getElementById('textColor') ? document.getElementById('textColor').value : '#000000'; // 文字色まだ作業中だから仮
+  const shape = document.getElementById('shape').value;
+  const width = document.getElementById('width').value;
+  const height = document.getElementById('height').value;
+  const fontSize = document.getElementById('fontSize') ? document.getElementById('fontSize').value : 24;
+  const fontFamily = selectedFontFamily || "'Noto Sans JP', sans-serif";
 
+  widget.innerText = text;
+  widget.style.backgroundColor = bgColor;
+  widget.style.color = textColor;
+  widget.style.width = width + 'px';
+  widget.style.height = height + 'px';
+  widget.style.fontSize = fontSize + 'px';
+  widget.style.fontFamily = fontFamily;
+  widget.style.borderRadius = shape === 'rounded' ? '16px' : '0px';
+
+  const baseUrl = window.location.origin + window.location.pathname.replace('index.html', 'widget.html');
+  const url = `${baseUrl}?text=${encodeURIComponent(text)}&bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&shape=${shape}&width=${width}&height=${height}&fontSize=${fontSize}&fontFamily=${encodeURIComponent(fontFamily)}`;
+  
+  document.getElementById('generatedUrl').value = url;
+}
+
+// 最初にウィジェットを更新しておく
 window.addEventListener('DOMContentLoaded', () => {
   updateWidget();
 });
 </script>
 
+
 </body>
 </html>
-
