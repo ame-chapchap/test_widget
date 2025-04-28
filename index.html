@@ -154,6 +154,8 @@
   </div>
 
   <script>
+    let selectedFontFamily = "'Noto Sans JP', sans-serif"; // 最初はデフォルトでセット
+
     const widget = document.getElementById('widget');
 
     function updateWidget() {
@@ -164,7 +166,7 @@
   const width = document.getElementById('width').value;
   const height = document.getElementById('height').value;
   const fontSize = document.getElementById('fontSize').value;
-  const fontFamily = document.getElementById('fontFamily').value;
+  const fontFamily = selectedFontFamily;
 
   widget.textContent = text;
   widget.style.backgroundColor = bgColor;
@@ -181,24 +183,22 @@
   document.getElementById('generatedUrl').value = url;
 }
 
-
-
-    window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('input', updateWidget);
-    el.addEventListener('change', updateWidget); // ←これ超大事！！
+    el.addEventListener('change', updateWidget);
+  });
 
-    document.querySelectorAll('#fontList li').forEach(li => {
-  li.addEventListener('click', () => {
-    const fontFamily = li.getAttribute('data-font');
-    document.getElementById('widget').style.fontFamily = fontFamily;
-
-    // フォント選んだら一応テキストボックスにも反映させたい場合
-    // document.getElementById('fontFamily').value = fontFamily;
-
-    updateWidget(); // フォントも含めたURL更新！
+  document.querySelectorAll('#fontList li').forEach(li => {
+    li.addEventListener('click', () => {
+      const fontFamily = li.getAttribute('data-font');
+      selectedFontFamily = fontFamily; // フォントを保存
+      widget.style.fontFamily = fontFamily; // ウィジェットに適用
+      updateWidget(); // URLも更新
+    });
   });
 });
+
 
 
 
