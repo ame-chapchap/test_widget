@@ -459,25 +459,28 @@
       </div>
     </div>
 
-    <div class="section-title">埋め込みコード</div>
-      
-<!-- タブコンテナを削除して、埋め込みリンクだけに -->
-<div id="url-tab" class="code-container">
-  <div class="code-box" id="generatedUrl">Loading...</div>
-  <button id="copyUrl" class="btn-small">コピー</button>
-  <span id="copyUrlSuccess" class="success-msg">コピーしました！</span>
-</div>
-
-<div class="notice">
-  <strong>Notionへの埋め込み方法:</strong><br>
-  1. 上記のリンクをコピー<br>
-  2. Notionページで「/embed」と入力<br>
-  3. 「Embed」ブロックを選択<br>
-  4. 「Link」の欄にコピーしたリンクを貼り付け<br>
-  5. 「Embed link」をクリック
-</div>
-    </div>
+    <div class="card">
+  <div class="section-title">Notion埋め込み用リンク</div>
+  
+  <div class="code-container">
+    <div class="code-box" id="generatedUrl">Loading...</div>
+    <button id="copyUrl" class="btn-small">コピー</button>
+    <span id="copyUrlSuccess" class="success-msg">コピーしました！</span>
   </div>
+
+  <div class="notice">
+    <strong>Notionへの埋め込み方法:</strong><br>
+    1. 上記のリンクをコピー<br>
+    2. Notionページで「/embed」と入力<br>
+    3. 「Embed」ブロックを選択<br>
+    4. 「Enter a URL」欄にコピーしたリンクを貼り付け<br>
+    5. 「Embed link」ボタンをクリック
+  </div>
+  
+  <div class="notice" style="background-color: #FFF8E1; border-left-color: #FFC107;">
+    <strong>重要:</strong> このツールが正常に動作するためには、widget.htmlファイルを実際にウェブ上にホスティングする必要があります。GitHub Pagesなどのサービスにファイルをアップロードし、生成されるURLを上記のコード内の「baseUrl」に設定してください。
+  </div>
+</div>
 
   <div class="main">
     <div class="widget" id="widget">
@@ -712,50 +715,50 @@
       }
       
       // 埋め込みコードを生成する関数
-      function generateEmbedCodes() {
-        // 各設定値の取得
-        const text = encodeURIComponent(document.getElementById('text').value);
-        const fontSize = document.getElementById('fontSize').value;
-        const fontWeight = document.getElementById('fontWeight').value;
-        const fontFamily = encodeURIComponent(selectedFontFamily);
-        const bgColor = encodeURIComponent(document.getElementById('bgColor').value);
-        const textColor = encodeURIComponent(document.getElementById('textColor').value);
-        const shape = document.getElementById('shape').value;
-        const textAlign = document.getElementById('textAlign').value;
-        const width = document.getElementById('width').value;
-        const height = document.getElementById('height').value;
-        const padding = document.getElementById('padding') ? document.getElementById('padding').value : 20;
-        const boxShadow = document.getElementById('boxShadow') ? document.getElementById('boxShadow').value : 'medium';
-        const opacity = document.getElementById('opacity') ? document.getElementById('opacity').value : 1;
-        
-        // URLパラメータの構築
-        const params = new URLSearchParams();
-        params.append('text', text);
-        params.append('fontSize', fontSize);
-        params.append('fontWeight', fontWeight);
-        params.append('fontFamily', fontFamily);
-        params.append('bgColor', bgColor);
-        params.append('textColor', textColor);
-        params.append('shape', shape);
-        params.append('textAlign', textAlign);
-        params.append('width', width);
-        params.append('height', height);
-        params.append('padding', padding);
-        params.append('boxShadow', boxShadow);
-        params.append('opacity', opacity);
-        
-        // 実際のデプロイ先URLを考慮した基本URL（ここを修正）
-  // 例: GitHubユーザー名とリポジトリ名を指定
-  // const baseUrl = "https://あなたのユーザー名.github.io/リポジトリ名/widget.html";
+function generateEmbedCodes() {
+  // 各設定値の取得（変更なし）
+  const text = encodeURIComponent(document.getElementById('text').value);
+  const fontSize = document.getElementById('fontSize').value;
+  const fontWeight = document.getElementById('fontWeight').value;
+  const fontFamily = encodeURIComponent(selectedFontFamily);
+  const bgColor = encodeURIComponent(document.getElementById('bgColor').value);
+  const textColor = encodeURIComponent(document.getElementById('textColor').value);
+  const shape = document.getElementById('shape').value;
+  const textAlign = document.getElementById('textAlign').value;
+  const width = document.getElementById('width').value;
+  const height = document.getElementById('height').value;
+  const padding = document.getElementById('padding') ? document.getElementById('padding').value : 20;
+  const boxShadow = document.getElementById('boxShadow') ? document.getElementById('boxShadow').value : 'medium';
+  const opacity = document.getElementById('opacity') ? document.getElementById('opacity').value : 1;
   
-  // または一時的に相対パスで生成
-  const baseUrl = window.location.origin + window.location.pathname.replace('index.html', 'widget.html');
+  // URLパラメータの構築（変更なし）
+  const params = new URLSearchParams();
+  params.append('text', text);
+  params.append('fontSize', fontSize);
+  params.append('fontWeight', fontWeight);
+  params.append('fontFamily', fontFamily);
+  params.append('bgColor', bgColor);
+  params.append('textColor', textColor);
+  params.append('shape', shape);
+  params.append('textAlign', textAlign);
+  params.append('width', width);
+  params.append('height', height);
+  params.append('padding', padding);
+  params.append('boxShadow', boxShadow);
+  params.append('opacity', opacity);
+  
+  // GitHubにデプロイした場合の絶対URLを設定
+  // ここのURLは実際にあなたがGitHubリポジトリにデプロイした後のURLに変更する必要があります
+  const baseUrl = "https://[GitHubユーザー名].github.io/[リポジトリ名]/widget.html";
+  
+  // または、テスト時は現在のパスに基づいたURLを使用
+  // const baseUrl = window.location.origin + window.location.pathname.replace('index.html', 'widget.html');
+  
   const fullUrl = `${baseUrl}?${params.toString()}`;
   
-  // URLを表示
+  // 埋め込み用リンクを表示
   document.getElementById('generatedUrl').textContent = fullUrl;
-
-      }
+}
       
       // 初期状態でウィジェットを更新
       updateWidget();
