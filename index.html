@@ -459,33 +459,22 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="section-title">埋め込みコード</div>
+    <div class="section-title">埋め込みコード</div>
       
-      <div class="tab-container">
-        <div class="tab active" data-tab="iframe">iframe</div>
-        <div class="tab" data-tab="url">URL</div>
-      </div>
-      
-      <div id="iframe-tab" class="code-container">
-        <div class="code-box" id="iframeCode">Loading...</div>
-        <button id="copyIframe" class="btn-small">コピー</button>
-        <span id="copyIframeSuccess" class="success-msg">コピーしました！</span>
-      </div>
-      
-      <div id="url-tab" class="code-container" style="display: none;">
-        <div class="code-box" id="generatedUrl">Loading...</div>
-        <button id="copyUrl" class="btn-small">コピー</button>
-        <span id="copyUrlSuccess" class="success-msg">コピーしました！</span>
-      </div>
-    
-      <div class="notice">
-        <strong>Notionへの埋め込み方法:</strong><br>
-        1. 上記のiframeコードをコピー<br>
-        2. Notionページで「/embed」と入力<br>
-        3. 「Embed」ブロックを選択<br>
-        4. コピーしたコードを貼り付け
-      </div>
+<!-- タブコンテナを削除して、埋め込みリンクだけに -->
+<div id="url-tab" class="code-container">
+  <div class="code-box" id="generatedUrl">Loading...</div>
+  <button id="copyUrl" class="btn-small">コピー</button>
+  <span id="copyUrlSuccess" class="success-msg">コピーしました！</span>
+</div>
+
+<div class="notice">
+  <strong>Notionへの埋め込み方法:</strong><br>
+  1. 上記のリンクをコピー<br>
+  2. Notionページで「/embed」と入力<br>
+  3. 「Embed」ブロックを選択<br>
+  4. コピーしたリンクを貼り付け
+</div>
     </div>
   </div>
 
@@ -638,24 +627,8 @@
       document.getElementById('padding').addEventListener('input', updateWidget);
       document.getElementById('boxShadow').addEventListener('change', updateWidget);
       document.getElementById('opacity').addEventListener('input', updateWidget);
-      
-      // タブ切り替え
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          this.classList.add('active');
-          
-          const tabId = this.getAttribute('data-tab');
-          document.getElementById('iframe-tab').style.display = tabId === 'iframe' ? 'block' : 'none';
-          document.getElementById('url-tab').style.display = tabId === 'url' ? 'block' : 'none';
-        });
-      });
-      
+
       // コピーボタン
-      document.getElementById('copyIframe').addEventListener('click', function() {
-        copyTextToClipboard('iframeCode', 'copyIframeSuccess');
-      });
-      
       document.getElementById('copyUrl').addEventListener('click', function() {
         copyTextToClipboard('generatedUrl', 'copyUrlSuccess');
       });
@@ -776,12 +749,7 @@
         
         // URLを表示
         document.getElementById('generatedUrl').textContent = fullUrl;
-        
-        // iframeコードを表示
-        const iframeWidth = parseInt(width) + 40; // 余裕を持たせる
-        const iframeHeight = parseInt(height) + 40;
-        const iframeCode = `<iframe src="${fullUrl}" width="${iframeWidth}" height="${iframeHeight}" frameborder="0" scrolling="no"></iframe>`;
-        document.getElementById('iframeCode').textContent = iframeCode;
+
       }
       
       // 初期状態でウィジェットを更新
