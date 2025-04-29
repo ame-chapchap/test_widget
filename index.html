@@ -499,156 +499,173 @@
     // 選択中のフォント
     let selectedFontFamily = "'Noto Sans JP', sans-serif";
     
-    // ーーーーーーーーーーーーーーー
-    // 全体の初期化
-    // ーーーーーーーーーーーーーーー
-    document.addEventListener('DOMContentLoaded', () => {
-      attachEventListeners();
-      updateWidget();
-    });
-
-    function attachEventListeners() {
-      // テキスト入力と基本設定
+    // DOM読み込み完了時に実行
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("DOM読み込み完了");
+      
+      // テキスト入力
       document.getElementById('text').addEventListener('input', updateWidget);
+      
+      // 文字サイズ
       document.getElementById('fontSize').addEventListener('input', updateWidget);
+      
+      // 太さ
       document.getElementById('fontWeight').addEventListener('change', updateWidget);
       
       // フォント選択
-      document.querySelectorAll('.font-item').forEach(item => {
-        item.addEventListener('click', () => {
-          document.querySelectorAll('.font-item').forEach(i => i.classList.remove('selected-font'));
-          item.classList.add('selected-font');
-          selectedFontFamily = item.getAttribute('data-font');
+      const fontItems = document.querySelectorAll('.font-item');
+      fontItems.forEach(item => {
+        item.addEventListener('click', function() {
+          // 選択状態の更新
+          fontItems.forEach(i => i.classList.remove('selected-font'));
+          this.classList.add('selected-font');
+          
+          // フォント情報を取得
+          selectedFontFamily = this.getAttribute('data-font');
+          console.log("フォント選択: " + selectedFontFamily);
+          
+          // ウィジェット更新
           updateWidget();
         });
       });
       
-      // 背景色設定
-      setupColorPicker('bg');
+      // 背景色入力
+      document.getElementById('bgColor').addEventListener('input', function() {
+        const color = this.value;
+        document.getElementById('bgColorPreview').style.background = color;
+        document.getElementById('bgColorPicker').value = color;
+        updateWidget();
+      });
       
-      // 文字色設定
-      setupColorPicker('text');
+      // 背景色ピッカー
+      document.getElementById('bgColorPicker').addEventListener('input', function() {
+        const color = this.value;
+        document.getElementById('bgColor').value = color;
+        document.getElementById('bgColorPreview').style.background = color;
+        updateWidget();
+      });
       
-      // 形状と配置
+      // 背景色プレビュークリック
+      document.getElementById('bgColorPreview').addEventListener('click', function(e) {
+        e.stopPropagation();
+        const popup = document.getElementById('colorPopup');
+        popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        
+        // 他のポップアップを閉じる
+        document.getElementById('textColorPopup').style.display = 'none';
+      });
+      
+      // 文字色入力
+      document.getElementById('textColor').addEventListener('input', function() {
+        const color = this.value;
+        document.getElementById('textColorPreview').style.background = color;
+        document.getElementById('textColorPicker').value = color;
+        updateWidget();
+      });
+      
+      // 文字色ピッカー
+      document.getElementById('textColorPicker').addEventListener('input', function() {
+        const color = this.value;
+        document.getElementById('textColor').value = color;
+        document.getElementById('textColorPreview').style.background = color;
+        updateWidget();
+      });
+      
+      // 文字色プレビュークリック
+      document.getElementById('textColorPreview').addEventListener('click', function(e) {
+        e.stopPropagation();
+        const popup = document.getElementById('textColorPopup');
+        popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        
+        // 他のポップアップを閉じる
+        document.getElementById('colorPopup').style.display = 'none';
+      });
+      
+      // カラースウォッチクリック（背景色）
+      document.querySelectorAll('#colorPopup .color-swatch').forEach(swatch => {
+        swatch.addEventListener('click', function() {
+          const color = this.getAttribute('data-color');
+          document.getElementById('bgColor').value = color;
+          document.getElementById('bgColorPreview').style.background = color;
+          document.getElementById('bgColorPicker').value = color;
+          document.getElementById('colorPopup').style.display = 'none';
+          updateWidget();
+        });
+      });
+      
+      // カラースウォッチクリック（文字色）
+      document.querySelectorAll('#textColorPopup .color-swatch').forEach(swatch => {
+        swatch.addEventListener('click', function() {
+          const color = this.getAttribute('data-color');
+          document.getElementById('textColor').value = color;
+          document.getElementById('textColorPreview').style.background = color;
+          document.getElementById('textColorPicker').value = color;
+          document.getElementById('textColorPopup').style.display = 'none';
+          updateWidget();
+        });
+      });
+      
+      // ポップアップを閉じる
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('#colorPopup') && !e.target.closest('#bgColorPreview')) {
+          document.getElementById('colorPopup').style.display = 'none';
+        }
+        if (!e.target.closest('#textColorPopup') && !e.target.closest('#textColorPreview')) {
+          document.getElementById('textColorPopup').style.display = 'none';
+        }
+      });
+      
+      // その他の設定
       document.getElementById('shape').addEventListener('change', updateWidget);
       document.getElementById('textAlign').addEventListener('change', updateWidget);
-      
-      // サイズ設定
       document.getElementById('width').addEventListener('input', updateWidget);
       document.getElementById('height').addEventListener('input', updateWidget);
       
       // 詳細設定パネル
-      document.querySelector('.toggle-panel').addEventListener('click', toggleAdvancedPanel);
+      document.querySelector('.toggle-panel').addEventListener('click', function() {
+        const panel = document.getElementById('advancedPanel');
+        const toggle = document.getElementById('advancedToggle');
+        
+        if (panel.style.display === 'none') {
+          panel.style.display = 'block';
+          toggle.textContent = '▲';
+        } else {
+          panel.style.display = 'none';
+          toggle.textContent = '▼';
+        }
+      });
+      
+      // 詳細設定
       document.getElementById('padding').addEventListener('input', updateWidget);
       document.getElementById('boxShadow').addEventListener('change', updateWidget);
       document.getElementById('opacity').addEventListener('input', updateWidget);
       
       // タブ切り替え
       document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
+        tab.addEventListener('click', function() {
           document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
+          this.classList.add('active');
           
-          const tabId = tab.getAttribute('data-tab');
+          const tabId = this.getAttribute('data-tab');
           document.getElementById('iframe-tab').style.display = tabId === 'iframe' ? 'block' : 'none';
           document.getElementById('url-tab').style.display = tabId === 'url' ? 'block' : 'none';
         });
       });
       
       // コピーボタン
-      document.getElementById('copyIframe').addEventListener('click', () => {
+      document.getElementById('copyIframe').addEventListener('click', function() {
         copyTextToClipboard('iframeCode', 'copyIframeSuccess');
       });
       
-      document.getElementById('copyUrl').addEventListener('click', () => {
+      document.getElementById('copyUrl').addEventListener('click', function() {
         copyTextToClipboard('generatedUrl', 'copyUrlSuccess');
       });
-    }
-
-    // ーーーーーーーーーーーーーーー
-    // カラーピッカー関連
-    // ーーーーーーーーーーーーーーー
-    function setupColorPicker(type) {
-      const inputId = type + 'Color';
-      const previewId = type + 'ColorPreview';
-      const popupId = type + 'ColorPopup';
-      const pickerId = type + 'ColorPicker';
       
-      const input = document.getElementById(inputId);
-      const preview = document.getElementById(previewId);
-      const popup = document.getElementById(popupId === 'bgColorPopup' ? 'colorPopup' : 'textColorPopup');
-      const picker = document.getElementById(pickerId);
-      
-      // 1. カラーコードを直接入力したら反映
-      input.addEventListener('input', () => {
-        const color = input.value;
-        preview.style.background = color;
-        picker.value = color;
-        updateWidget();
-      });
-      
-      // 2. 色プレビューを押したらポップアップ開閉
-      preview.addEventListener('click', (e) => {
-        e.stopPropagation();
-        popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-        
-        // 他のポップアップを閉じる
-        const otherPopup = document.getElementById(popupId === 'colorPopup' ? 'textColorPopup' : 'colorPopup');
-        if (otherPopup) otherPopup.style.display = 'none';
-      });
-      
-      // 3. カラーピッカーで選んだら反映
-      picker.addEventListener('input', () => {
-        const color = picker.value;
-        input.value = color;
-        preview.style.background = color;
-        updateWidget();
-      });
-      
-      // 4. カラーパレットを押したら反映
-      if (popup) {
-        popup.querySelectorAll('.color-swatch').forEach(swatch => {
-          swatch.addEventListener('click', () => {
-            const color = swatch.getAttribute('data-color');
-            input.value = color;
-            preview.style.background = color;
-            picker.value = color;
-            updateWidget();
-            popup.style.display = 'none';
-          });
-        });
-      }
-    }
-    
-    // 他の場所をクリックしたらポップアップを閉じる
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('#colorPopup') && !e.target.closest('#bgColorPreview')) {
-        document.getElementById('colorPopup').style.display = 'none';
-      }
-      if (!e.target.closest('#textColorPopup') && !e.target.closest('#textColorPreview')) {
-        document.getElementById('textColorPopup').style.display = 'none';
-      }
+      // 初期状態でウィジェットを更新
+      updateWidget();
     });
     
-    // ーーーーーーーーーーーーーーー
-    // 詳細設定パネル
-    // ーーーーーーーーーーーーーーー
-    function toggleAdvancedPanel() {
-      const panel = document.getElementById('advancedPanel');
-      const toggle = document.getElementById('advancedToggle');
-      
-      if (panel.style.display === 'none') {
-        panel.style.display = 'block';
-        toggle.textContent = '▲';
-      } else {
-        panel.style.display = 'none';
-        toggle.textContent = '▼';
-      }
-    }
-    
-    // ーーーーーーーーーーーーーーー
-    // コピー機能
-    // ーーーーーーーーーーーーーーー
+    // クリップボードにコピーする関数
     function copyTextToClipboard(elementId, successMsgId) {
       const element = document.getElementById(elementId);
       const text = element.textContent;
@@ -663,9 +680,7 @@
       });
     }
     
-    // ーーーーーーーーーーーーーーー
-    // ウィジェット更新
-    // ーーーーーーーーーーーーーーー
+    // ウィジェットを更新する関数
     function updateWidget() {
       const widget = document.getElementById('widget');
       
@@ -683,9 +698,9 @@
       const height = document.getElementById('height').value;
       
       // 詳細設定
-      const padding = document.getElementById('padding').value;
-      const boxShadow = document.getElementById('boxShadow').value;
-      const opacity = document.getElementById('opacity').value;
+      const padding = document.getElementById('padding') ? document.getElementById('padding').value : 20;
+      const boxShadow = document.getElementById('boxShadow') ? document.getElementById('boxShadow').value : 'medium';
+      const opacity = document.getElementById('opacity') ? document.getElementById('opacity').value : 1;
       
       // ウィジェットの更新
       widget.innerText = text;
@@ -722,13 +737,11 @@
         widget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.3)';
       }
       
-      // 埋め込み用URLの生成
+      // 埋め込み用コードの生成
       generateEmbedCodes();
     }
     
-    // ーーーーーーーーーーーーーーー
-    // 埋め込みコード生成
-    // ーーーーーーーーーーーーーーー
+    // 埋め込みコードを生成する関数
     function generateEmbedCodes() {
       // 各設定値の取得
       const text = encodeURIComponent(document.getElementById('text').value);
@@ -741,9 +754,9 @@
       const textAlign = document.getElementById('textAlign').value;
       const width = document.getElementById('width').value;
       const height = document.getElementById('height').value;
-      const padding = document.getElementById('padding').value;
-      const boxShadow = document.getElementById('boxShadow').value;
-      const opacity = document.getElementById('opacity').value;
+      const padding = document.getElementById('padding') ? document.getElementById('padding').value : 20;
+      const boxShadow = document.getElementById('boxShadow') ? document.getElementById('boxShadow').value : 'medium';
+      const opacity = document.getElementById('opacity') ? document.getElementById('opacity').value : 1;
       
       // URLパラメータの構築
       const params = new URLSearchParams();
@@ -769,11 +782,8 @@
       document.getElementById('generatedUrl').textContent = fullUrl;
       
       // iframeコードを表示
-      const iframeWidth = parseInt(width) + 20; // 少し余裕を持たせる
-      const iframeHeight = parseInt(height) + 20;
+      const iframeWidth = parseInt(width) + 40; // 余裕を持たせる
+      const iframeHeight = parseInt(height) + 40;
       const iframeCode = `<iframe src="${fullUrl}" width="${iframeWidth}" height="${iframeHeight}" frameborder="0" scrolling="no"></iframe>`;
       document.getElementById('iframeCode').textContent = iframeCode;
     }
-    
-    // 初期化時に一度実行
-    updateWidget();
