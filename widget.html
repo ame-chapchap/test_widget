@@ -2,16 +2,21 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Widget</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notion Widget</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=M+PLUS+Rounded+1c&family=Kosugi+Maru&family=Shippori+Mincho+B1&family=Zen+Maru+Gothic&family=Noto+Serif+JP&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
+      height: 100%;
+      overflow: hidden;
       background: transparent;
+    }
+    body {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
     }
     .widget {
       display: flex;
@@ -22,40 +27,88 @@
       color: #ffffff;
       width: 300px;
       height: 150px;
-      border-radius: 0px;
+      border-radius: 16px;
       font-size: 24px;
       font-family: 'Noto Sans JP', sans-serif;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      line-height: 1.5;
+      opacity: 1;
+      overflow-wrap: break-word;
+      word-break: break-all;
+      transition: all 0.3s ease;
     }
   </style>
 </head>
 <body>
-
   <div class="widget" id="widget">
     Loading...
   </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-
-    const text = params.get('text') || 'Hello!';
-    const bgColor = params.get('bgColor') || '#191970';
-    const textColor = params.get('textColor') || '#ffffff';
-    const shape = params.get('shape') || 'square';
-    const width = params.get('width') || '300';
-    const height = params.get('height') || '150';
-    const fontSize = params.get('fontSize') || '24';
-    const fontFamily = params.get('fontFamily') || "'Noto Sans JP', sans-serif";
-
-    const widget = document.getElementById('widget');
-    widget.textContent = text;
-    widget.style.backgroundColor = bgColor;
-    widget.style.color = textColor;
-    widget.style.width = width + 'px';
-    widget.style.height = height + 'px';
-    widget.style.fontSize = fontSize + 'px';
-    widget.style.fontFamily = fontFamily;
-    widget.style.borderRadius = shape === 'rounded' ? '16px' : '0px';
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      
+      // テキストと基本設定
+      const text = params.get('text') || 'Hello!';
+      const fontSize = params.get('fontSize') || '24';
+      const fontWeight = params.get('fontWeight') || 'bold';
+      const fontFamily = params.get('fontFamily') || "'Noto Sans JP', sans-serif";
+      
+      // スタイル設定
+      const bgColor = params.get('bgColor') || '#191970';
+      const textColor = params.get('textColor') || '#ffffff';
+      const shape = params.get('shape') || 'rounded';
+      const textAlign = params.get('textAlign') || 'center';
+      const width = params.get('width') || '300';
+      const height = params.get('height') || '150';
+      
+      // 詳細設定
+      const padding = params.get('padding') || '20';
+      const boxShadow = params.get('boxShadow') || 'medium';
+      const opacity = params.get('opacity') || '1';
+      
+      const widget = document.getElementById('widget');
+      
+      // テキストは安全のためにHTMLエンティティに変換して設定
+      widget.textContent = decodeURIComponent(text);
+      
+      // スタイル適用
+      widget.style.fontSize = fontSize + 'px';
+      widget.style.fontWeight = fontWeight;
+      widget.style.fontFamily = decodeURIComponent(fontFamily);
+      widget.style.backgroundColor = decodeURIComponent(bgColor);
+      widget.style.color = decodeURIComponent(textColor);
+      widget.style.width = width + 'px';
+      widget.style.height = height + 'px';
+      widget.style.textAlign = textAlign;
+      widget.style.padding = padding + 'px';
+      widget.style.opacity = opacity;
+      
+      // 角の丸み設定
+      if (shape === 'square') {
+        widget.style.borderRadius = '0';
+      } else if (shape === 'rounded') {
+        widget.style.borderRadius = '16px';
+      } else if (shape === 'circle') {
+        widget.style.borderRadius = '24px';
+      } else if (shape === 'pill') {
+        widget.style.borderRadius = '999px';
+      }
+      
+      // 影の設定
+      if (boxShadow === 'none') {
+        widget.style.boxShadow = 'none';
+      } else if (boxShadow === 'small') {
+        widget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+      } else if (boxShadow === 'medium') {
+        widget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.2)';
+      } else if (boxShadow === 'large') {
+        widget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.3)';
+      }
+    });
   </script>
-
 </body>
 </html>
