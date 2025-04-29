@@ -499,30 +499,35 @@
     // 選択中のフォント
     let selectedFontFamily = "'Noto Sans JP', sans-serif";
     
-    // DOM読み込み完了時に実行
     document.addEventListener('DOMContentLoaded', function() {
-      console.log("DOM読み込み完了");
-      
-      // テキスト入力
-      document.getElementById('text').addEventListener('input', updateWidget);
-      
+  　// 選択中のフォント
+  　let selectedFontFamily = "'Noto Sans JP', sans-serif";
+  
+  　// テキスト入力
+  　document.getElementById('text').addEventListener('input', updateWidget);
+  
+  　// フォント選択
+  　document.querySelectorAll('.font-item').forEach(item => {
+    item.addEventListener('click', function() {
+      document.querySelectorAll('.font-item').forEach(i => i.classList.remove('selected-font'));
+      this.classList.add('selected-font');
+      selectedFontFamily = this.getAttribute('data-font');
+      updateWidget();
+    });
+  });
+  
+  // 背景色プレビュークリック
+  document.getElementById('bgColorPreview').addEventListener('click', function(e) {
+    e.stopPropagation();
+    const popup = document.getElementById('colorPopup');
+    popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+  });
+  
       // 文字サイズ
       document.getElementById('fontSize').addEventListener('input', updateWidget);
       
       // 太さ
       document.getElementById('fontWeight').addEventListener('change', updateWidget);
-      
-      // フォント選択
-      const fontItems = document.querySelectorAll('.font-item');
-      fontItems.forEach(item => {
-        item.addEventListener('click', function() {
-          // 選択状態の更新
-          fontItems.forEach(i => i.classList.remove('selected-font'));
-          this.classList.add('selected-font');
-          
-          // フォント情報を取得
-          selectedFontFamily = this.getAttribute('data-font');
-          console.log("フォント選択: " + selectedFontFamily);
           
           // ウィジェット更新
           updateWidget();
@@ -545,11 +550,6 @@
         updateWidget();
       });
       
-      // 背景色プレビュークリック
-      document.getElementById('bgColorPreview').addEventListener('click', function(e) {
-        e.stopPropagation();
-        const popup = document.getElementById('colorPopup');
-        popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
         
         // 他のポップアップを閉じる
         document.getElementById('textColorPopup').style.display = 'none';
